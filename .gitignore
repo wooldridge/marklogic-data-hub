@@ -1,0 +1,15 @@
+.DS_Store
+.gradle/
+.settings/
+.metadata/
+marklogic-data-hub/bin/
+quick-start/bin/
+build/
+releases/
+.classpath
+.project
+gradle-local.properties
+/quick-start/environment.properties
+/quick-start/assetInstallTime.properties
+/quick-start/input
+/quick-start/plugins
