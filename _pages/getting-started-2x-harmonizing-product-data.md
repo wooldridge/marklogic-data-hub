@@ -69,7 +69,7 @@ The content code receives an id as the first parameter. This id happens to be th
 
 The only modification we need to make to this file is to change the way we look up the sku.
 
-```javascript
+```
 let sku = xs.string(source.sku || source.SKU);
 ```
 
