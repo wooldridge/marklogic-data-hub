@@ -1,5 +1,10 @@
+#lines {
+  position: absolute;
+}
+
 h4.item-type {
-  margin-bottom: 0px;
+  margin: 0;
+  padding: 20px 0 0 0;
 }
 
 p.item-identifying-info {
@@ -19,16 +24,10 @@ p.item-identifying-info {
   margin: 0;
 }
 
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
 .prop-container {
   width: 300px;
   font-size: 14px;
-  border: solid 1px #5b8db3;
+  border: solid 2px #5b8db3;
   margin: 10px 0;
   padding: 0;
 }
@@ -41,6 +40,7 @@ ul {
 .prop-name {
   width: 185px;
   font-size: 14px;
+  cursor: default;
 }
 
 .prop-val {
@@ -48,8 +48,22 @@ ul {
   font-size: 12px;
   color: #666;
   white-space: nowrap;
+  cursor: default;
 }
 
 .is-primary {
   width: 30px;
+  cursor: default;
+}
+
+.selected {
+  background-color: lightyellow;
+}
+
+.connected {
+  background-color: lightblue;
+}
+
+.hovering {
+  border: solid 2px #c00;
 }

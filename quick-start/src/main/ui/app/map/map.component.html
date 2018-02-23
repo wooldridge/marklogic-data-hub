@@ -2,25 +2,55 @@
 
   <div class="map-container">
 
+    <!-- SVG-based lines for property connections -->
+    <svg id="lines" height="972" width="1200">
+      <line *ngFor="let line of connections" class="line"
+        [attr.x1]="line.x1"
+        [attr.y1]="line.y1"
+        [attr.x2]="line.x2"
+        [attr.y2]="line.y2"
+        [attr.stroke]="line.stroke"
+        style="stroke-width:2"
+      />
+    </svg>
+
     <div id="source">
-      <h4 class="item-type">Source Document</h4>
-      <p class="item-identifying-info">{{ sampleDoc?.uri }}</p>
-      <ul>
-        <li *ngFor="let key of sampleDocSrcKeys; let i = index;" class="prop-container" on-mouseover='overEvent(i, $event)'>
-          <span class="prop-name">{{key}}</span>
-          <span class="prop-val" title="{{ sampleDocSrcValTypes[i] }}">{{ sampleDocSrcValTypes[i] === "string" ? '"' : '' }}{{ sampleDocSrcVals[i] | slice:0:docValMaxLen }}{{ sampleDocSrcVals[i].length > docValMaxLen ? '...' : '' }}{{ sampleDocSrcValTypes[i] === "string" ? '"' : '' }}</span>
-        </li>
-      </ul>
+      <div id="src-heading" #srcheading>
+        <h4 class="item-type">Source Document</h4>
+        <p class="item-identifying-info">{{ sampleDoc?.uri }}</p>
+      </div>
+      <div *ngFor="let prop of sampleDocSrcProps; let i = index;">
+        <div class="prop-container"
+             on-click="handleClick(prop.key, 'src')"
+             on-mouseover="handleMouseover(prop.key, 'src')"
+             on-mouseout="handleMouseout(prop.key, 'src')"
+             [class.selected]="prop.selected"
+             [class.connected]="prop.connected"
+             [class.hovering]="prop.hovering"
+             #mapproperty>
+          <span class="prop-name">{{prop.key}}</span>
+          <span class="prop-val" title="{{type}}">{{ prop.type === "string" ? '"' : '' }}{{ prop.val | slice:0:valMaxLen }}{{ prop.val.length > valMaxLen ? '...' : '' }}{{ prop.type === "string" ? '"' : '' }}</span>
+        </div>
+      </div>
     </div>
 
     <div id="harmonized">
-      <h4 class="item-type">Harmonized Model</h4>
-      <p class="item-identifying-info">{{ chosenEntity?.info.title }}</p>
-      <ul>
-        <li *ngFor="let property of chosenEntity?.definition.properties; let i = index;" class="prop-container">
-          <span class="prop-name">{{ property.name }}</span><span class="prop-type">{{ property.datatype }}</span><span class="is-primary" *ngIf="property.name === entityPrimaryKey"><i class="fa fa-key"></i></span>
-        </li>
-      </ul>
+      <div id="harm-heading" #harmheading>
+        <h4 class="item-type">Harmonized Model</h4>
+        <p class="item-identifying-info">{{ chosenEntity?.info.title }}</p>
+      </div>
+      <div *ngFor="let prop of chosenEntity?.definition.properties; let i = index;">
+        <div class="prop-container"
+             on-click="handleClick(prop.name, 'harm')"
+             on-mouseover="handleMouseover(prop.name, 'harm')"
+             on-mouseout="handleMouseout(prop.name, 'harm')"
+             [class.selected]="prop.selected"
+             [class.connected]="prop.connected"
+             [class.hovering]="prop.hovering"
+             #mapproperty>
+          <span class="prop-name">{{prop.name}}</span><span class="prop-type">{{prop.datatype}}</span><span class="is-primary" *ngIf="prop.name === entityPrimaryKey"><i class="fa fa-key"></i></span>
+        </div>
+      </div>
     </div>
 
   </div>
