@@ -141,3 +141,6 @@ assets:
 relative_links:
   enabled:     true
   collections: true
+
+# jekyll-search
+url: http://127.0.0.1:4000/marklogic-data-hub
