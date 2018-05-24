@@ -29,9 +29,11 @@ export class MapComponent implements OnInit {
   private sampleDocSrcProps: Array<any> = [];
   private valMaxLen: number = 15;
 
+  private currentSelection: string = '';
+
   // Connections
-  public conns: Array<any> = [];
-  private connsInit: boolean = false;
+  public conns: Object<any> = [];
+  private mapPrefix: string = 'dhf-map-';
 
   private entityName: string;
   public flowName: string;
@@ -42,32 +44,20 @@ export class MapComponent implements OnInit {
   /**
    * Get entities and choose one to serve as harmonized model.
    */
-  getEntities(): void {
+  loadMap(): void {
+    this.conns = this.getMap();
+  }
+
+  /**
+   * Load choosen entity and serve as harmonized model.
+   */
+  loadEntity(): void {
     let self = this;
     this.entitiesService.entitiesChange.subscribe(entities => {
       this.chosenEntity = _.find(entities, (e: Entity) => {
         return e.name === this.entityName;
       });
       this.entityPrimaryKey = this.chosenEntity.definition.primaryKey;
-      // Set up connections once
-      if (!this.connsInit) {
-        let savedConns = this.getMap();
-        _.forEach(this.chosenEntity.definition.properties, function(prop) {
-          // If this prop pair has been saved, load its conn
-          let savedConn = _.find(savedConns, function(c) { return c['harm'].name === prop.name; });
-          if (savedConn) {
-            self.conns.push(savedConn);
-          }
-          // Else load an empty version
-          else {
-            self.conns.push({
-              src: null,
-              harm: {name: prop.name, type: prop.datatype}
-            });
-          }
-        });
-        this.connsInit = true;
-      }
     });
     this.entitiesService.getEntities();
   }
@@ -75,7 +65,7 @@ export class MapComponent implements OnInit {
   /**
    * Get sample documents and choose one to serve as source.
    */
-  getSampleDoc(entityName): void {
+  loadSampleDoc(entityName): void {
     let self = this;
     this.activeFacets = { Collection: {
       values: [entityName]
@@ -100,11 +90,11 @@ export class MapComponent implements OnInit {
           };
           self.sampleDocSrcProps.push(prop);
         });
-        console.log('start with', self.sampleDocSrcProps);
+        // console.log('start with', self.sampleDocSrcProps);
         // TODO sort order
         self.sampleDocSrcProps = _.sortBy(self.sampleDocSrcProps, ['key']);
         // TODO filter by type
-        self.sampleDocSrcProps = _.filter(self.sampleDocSrcProps, ['type', 'string']);
+        //self.sampleDocSrcProps = _.filter(self.sampleDocSrcProps, ['type', 'string']);
       });
     },
     () => {},
@@ -124,9 +114,12 @@ export class MapComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.entityName = params['entityName'] || null;
       this.flowName = params['flowName'] || null;
+      this.mapName = this.mapService.getName(this.entityName, this.flowName);
+
+      this.loadEntity();
+      this.loadSampleDoc(this.entityName);
+      this.loadMap();
     });
-    this.getEntities();
-    this.getSampleDoc(this.entityName);
   }
 
   handleSelection(prop, proptype, index): void {
@@ -134,7 +127,7 @@ export class MapComponent implements OnInit {
     if (prop === null) {
       conn[proptype] = null;
     } else {
-      console.log('prop', prop);
+      // console.log('prop', prop);
       conn[proptype] = {
         key: prop.key,
         type: prop.type,
@@ -144,30 +137,24 @@ export class MapComponent implements OnInit {
   }
 
   handleFilter(event) {
-    console.log('filterChanged', event);
+    // console.log('filterChanged', event);
     this.filterSelected = event;
   }
 
   getProps(type) {
-    console.log('type', type);
+    // console.log('type', type);
     let self = this;
     this.sampleDocSrcProps = [];
-    _.forEach(this.sampleDocSrc['envelope']['instance'], function(val, key) {
-      let prop = {
-        key: key,
-        val: String(val),
-        type: self.getType(val)
-      };
-      self.sampleDocSrcProps.push(prop);
-    });
-    // TODO filter by type
-    if (this.filterSelected !== 'all') {
-      if (this.filterSelected === 'type match') {
-        self.sampleDocSrcProps = _.filter(self.sampleDocSrcProps, ['type', type]);
-      } else {
-        self.sampleDocSrcProps = _.filter(self.sampleDocSrcProps, ['type', this.filterSelected]);
-      }
-    }
+    if (this.sampleDocSrc && this.sampleDocSrc.envelope && this.sampleDocSrc.envelope.instance)
+      _.forEach(this.sampleDocSrc.envelope.instance, function(val, name) {
+        let prop = {
+          name: name,
+          val: String(val),
+          type: self.getType(val)
+        };
+        self.sampleDocSrcProps.push(prop);
+      });
+    
     return self.sampleDocSrcProps;
   }
 
@@ -182,26 +169,30 @@ export class MapComponent implements OnInit {
   }
 
   saveMap(): void {
-    let mapName = this.mapService.getName(this.entityName, this.flowName);
-    let localString = localStorage.getItem("mapping");
-    let localObj = {};
-    if (localString) {
-      localObj = JSON.parse(localString);
+    let formattedConns = {};
+
+    _.forEach(this.conns, function(srcPropName, entityPropName) {
+      if (srcPropName)
+        formattedConns[entityPropName] = { "sourcedFrom" : srcPropName }; 
+    });
+
+    let mapObj = {
+      "mapping" : {
+        "language" : "zxx",
+        "name" : this.mapName,
+        "description" : "",,  // TODO
+        "version" : "1",
+        "targetEntityType" : "http://marklogic.com/example/Schema-0.0.2/Person",  // TODO
+        "sourceContext": "/path/to/properties/",  // TODO
+        "properties": formattedConns
+      }
     }
-    if (!localObj[this.entityName]) {
-      localObj[this.entityName] = {}
-    };
-    if (!localObj[this.entityName][this.flowName]) {
-      localObj[this.entityName][this.flowName] = {}
-    };
-    localObj[this.entityName][this.flowName] = {
-      name: mapName,
-      conns: this.conns
-    }
+
     // Temporarily saving locally
-    localStorage.setItem("mapping", JSON.stringify(localObj));
+    localStorage.setItem(this.mapPrefix + this.mapName, JSON.stringify(mapObj));
+
     // TODO use service to save
-    this.mapService.saveMap(this.entityName, mapName, JSON.stringify(localObj));
+    // this.mapService.saveMap(this.entityName, mapName, JSON.stringify(localObj));
     this.router.navigate(['/flows', this.entityName, this.flowName, 'HARMONIZE']);
   }
 
@@ -210,26 +201,27 @@ export class MapComponent implements OnInit {
     result.subscribe( () => {
         this.router.navigate(['/flows', this.entityName, this.flowName, 'HARMONIZE']);
       },(err: any) => {
-        console.log('map cancel aborted');
+        // console.log('map cancel aborted');
       }
     );
   }
 
   getMap() {
-    let result = null;
-    // Temporarily saving locally
-    let localString = localStorage.getItem("mapping");
-    if (localString) {
-      let localObj = JSON.parse(localString);
-      if (localObj[this.entityName]) {
-        if (localObj[this.entityName][this.flowName]) {
-          result = localObj[this.entityName][this.flowName].conns;
-        }
-      }
+    let result, connMap;
+    try {
+      result = JSON.parse(localStorage.getItem(this.mapPrefix + this.mapName));
+    } catch(e) {}
+
+    if (result && result.mapping && result.mapping.properties) {
+      connMap = {};
+      _.forEach(result.mapping.properties, function(srcObj, entityPropName) {
+        connMap[entityPropName] = srcObj.sourcedFrom; 
+      });
     }
+
     // TODO use service to get
-    this.mapService.getMaps(this.entityName);
-    return result;
+    // this.mapService.getMaps(this.entityName);
+    return connMap || {};
   }
 
 }

@@ -31,49 +31,22 @@
         <p class="item-identifying-info">{{ sampleDoc?.uri }}</p>
       </div>
 
-      <div *ngFor="let prop of chosenEntity?.definition.properties; let i = index;" class="prop-container">
+      <div *ngIf="chosenEntity">
+        <div *ngFor="let prop of chosenEntity?.definition.properties; let i = index;" class="prop-container">
 
-          <div class="btn-group" dropdown>
-            <button dropdownToggle type="button" class="btn dropdown-toggle prop-select">
-              <div *ngIf="conns[i]['src'] !== null">
-                <div class="prop-select-content">
+          <mdl-select
+            #autocompleteSelect 
+            label="Select..."
+            [autocomplete]="true"
+            [(ngModel)]="conns[prop.name]"
+          >
+            <mdl-option *ngFor="let prop of getProps() | matchSorter:'name':autocompleteSelect.searchQuery" [value]="prop.name">
+              <span class="prop-name">{{prop.name}}</span> <span class="prop-val" title="{{type}}">{{ prop.type === "string" ? '"' : '' }}{{ prop.val | slice:0:valMaxLen }}{{ prop.val.length > valMaxLen ? '...' : '' }}{{ prop.type === "string" ? '"' : '' }}</span>
+            </mdl-option>
+          </mdl-select>
 
-                  <!--<span class="prop-name">{{conns[i]['src'].key}}</span><span class="prop-type">{{conns[i]['src'].val}}</span>-->
-
-                  <span class="prop-name">{{conns[i]['src'].key}}</span>
-                  <!-- <span class="prop-type">{{conns[i]['src'].type}}</span> -->
-                  <span class="prop-val" title="{{conns[i]['src'].type}}">{{ getType(conns[i]['src'].val) === "string" ? '"' : '' }}{{ conns[i]['src'].val | slice:0:valMaxLen }}{{ conns[i]['src'].val.length > valMaxLen ? '...' : '' }}{{ getType(conns[i]['src'].val) === "string" ? '"' : '' }}</span>
-
-                </div>
-              </div>
-              <div *ngIf="conns[i]['src'] === null">
-                <div class="prop-select-content unselected">Select...</div>
-              </div>
-              <div class="prop-select-control"><span class="caret"></span></div>
-            </button>
-            <ul *dropdownMenu class="dropdown-menu" role="menu">
-              <li *ngFor="let prop of getProps(conns[i]['harm'].type);"
-                  role="menuitem"
-                  on-click="handleSelection(prop, 'src', i)">
-                <a class="dropdown-item" href="javascript:void(0)">
-                  <!--<span class="prop-name">{{prop.key}}</span><span class="prop-val">{{prop.val}}</span>-->
-
-                  <span class="prop-name">{{prop.key}}</span>
-                  <!-- <span class="prop-type">{{prop.type}}</span> -->
-                  <span class="prop-val" title="{{type}}">{{ prop.type === "string" ? '"' : '' }}{{ prop.val | slice:0:valMaxLen }}{{ prop.val.length > valMaxLen ? '...' : '' }}{{ prop.type === "string" ? '"' : '' }}</span>
-
-                </a>
-              </li>
-              <li role="menuitem"
-                  on-click="handleSelection(null, 'src', i)">
-                <a class="dropdown-item" href="javascript:void(0)">
-                  <div class="prop-name unselected">none</div>
-                </a>
-              </li>
-            </ul>
-          </div><!-- button-group -->
-
-      </div><!-- ngFor -->
+        </div><!-- ngFor -->
+      </div><!-- ngIf -->
 
     </div><!-- source -->
 
