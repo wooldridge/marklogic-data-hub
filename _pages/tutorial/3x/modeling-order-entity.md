@@ -51,12 +51,12 @@ $76.98
 
 Now, we can model our Order entity. 
 
-To begin, click **Entities** in the top navigation bar, and then open the entity editor by clicking on the pencil icon in the upper right corner of the **Order** entity.
+To begin, click **Entities** in the top navigation bar, and then open the entity editor by clicking on the **pencil** icon (<i class="fa fa-pencil"></i>) in the upper right corner of the **Order** entity.
 
 ## Add the **id** Property
 1. Click **+**{:.circle-button} below **Properties** to add a new property.
-1. Click the area just below the **key** icon to make **id** the primary key.
-1. Click the area just below the **lightning bolt** icon to specify the need for an element range index for this property.
+1. Click the area just below the **key** icon (<i class="fa fa-key"></i>) to make **id** the primary key.
+1. Click the area just below the **lightning bolt** icon (<i class="fa fa-bolt"></i>) to specify the need for an element range index for this property.
 1. Enter **id** as the Name.
 1. Select **string** as the Type.
 

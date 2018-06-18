@@ -68,22 +68,22 @@ With the QuickStart application running, open it in your browser: [http://localh
 
 After opening the QuickStart application, you must step through a sequence of screens to properly configure and install the hub.
 
-1. Browse to the directory where your hub lives. If you saved and ran the Quickstart war file in the hub directory, then you should be in the correct directory. Click NEXT.
+1. Browse to the directory where your hub lives. If you saved and ran the Quickstart war file in the hub directory, then you should be in the correct directory. Click **NEXT**.
 <br/>![Hub Directory]({{site.baseurl}}/images/3x/install/hub-wizard-1.png){:.screenshot}
 
-2. Click INITIALIZE to initialized your project directory.
+2. Click **INITIALIZE** to initialized your project directory.
 <br/>![Hub Directory]({{site.baseurl}}/images/3x/install/hub-wizard-2.png){:.screenshot}
 
-3. You have now initialized your Data Hub Framework project. Your project folder now contains many new files and directories. If you are curious, you can read about the [files in a Data Hub Framework project](https://github.com/marklogic-community/marklogic-data-hub/wiki/Project-Directory-Structure). Click NEXT.
+3. You have now initialized your Data Hub Framework project. Your project folder now contains many new files and directories. If you are curious, you can read about the [files in a Data Hub Framework project](https://github.com/marklogic-community/marklogic-data-hub/wiki/Project-Directory-Structure). Click **NEXT**.
 <br/>![Hub Directory]({{site.baseurl}}/images/3x/install/hub-wizard-3.png){:.screenshot}
 
-4. Choose the local environment, then click NEXT.
+4. Choose the local environment, then click **NEXT**.
 <br/>![Hub Directory]({{site.baseurl}}/images/3x/install/hub-wizard-4.png){:.screenshot}
 
-5. Enter your MarkLogic credentials, then click LOGIN.
+5. Enter your MarkLogic credentials, then click **LOGIN**.
 <br/>![Hub Directory]({{site.baseurl}}/images/3x/install/hub-wizard-5.png){:.screenshot}
 
-6. Click INSTALL to install the data hub into MarkLogic. You will see a screen with progress information while the data hub is being installed.
+6. Click **INSTALL** to install the data hub into MarkLogic. You will see a screen with progress information while the data hub is being installed.
 <br/>![Hub Directory]({{site.baseurl}}/images/3x/install/hub-wizard-6.png){:.screenshot}
 
 Congratulations! The Data Hub Framework is installed and ready to use.

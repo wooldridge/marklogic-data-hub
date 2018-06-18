@@ -22,7 +22,7 @@ Follow these steps to configure the input flow:
 3. Under **General Options**, change **Input File Type** to **Delimited Text**.
 4. Under **Delimited Text Options**, slide the **Generate URI?** slider to the right, enabling automatic unique URI generation.
 5. Scroll to the bottom of the wizard and click **Save Options**.
-6. Click **Run Import**. MarkLogic begins loading data. Quickstart displays a progress bar at the bottom of your browser.
+6. Click **RUN IMPORT**. MarkLogic begins loading data. Quickstart displays a progress bar at the bottom of your browser.
 
 When the load finishes, QuickStart displays a completion notice at the bottom of your browser.
 

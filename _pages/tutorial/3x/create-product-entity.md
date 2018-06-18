@@ -16,7 +16,7 @@ Use the following procedure to create a Product entity. We will add entity prope
 1. Click <span class="circle-button"><i class="fa fa-wrench"></i></span> to open the entity tools control.
 1. Click **New Entity**. The entity creation dialog appears.
 1. Type **Product** in the Title field.
-1. Click **Save**. The new Product entity is displayed. If you are prompted to update the index, click No.
+1. Click **Save**. The new Product entity is displayed. If you are prompted to update the index, click **No**.
 
 When you are done, you should see a representation of the Product entity similar to the following:
 

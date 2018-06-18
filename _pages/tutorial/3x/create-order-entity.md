@@ -16,7 +16,7 @@ Click **Entities** on the top navigation bar, and then follow these steps:
 
 You have just created your second entity, the Order entity.
 
-Note: If you do not see your Order entity, it might be hidden behind the Product entity. Click and Drag the Product entity to uncover the Order entity.
+Note: If you do not see your Order entity, it might be hidden behind the Product entity. Click and drag the Product entity to uncover the Order entity.
 
 The following picture summarizes the steps for creating the Order entity.
 ![New Entity]({{site.baseurl}}/images/3x/create-order-entity/create-order-entity.png)
