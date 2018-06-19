@@ -11,6 +11,8 @@ In this exercise, we will create a harmonize flow for Product, and then run it t
 
 To begin, click **Flows** in the top navigation bar.
 
+![Click Flows]({{site.baseurl}}/images/3x/harmonizing-product-data/select-flows.png)
+
 ## Create the Harmonize Flow
 
 Use the following procedure to create a Product harmonize flow:

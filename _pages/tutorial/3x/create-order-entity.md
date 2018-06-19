@@ -7,7 +7,11 @@ permalink: /tutorial/create-order-entity/
 
 Next, we will create an Order entity, following the same procedure we used to create the Product entity. 
 
-Click **Entities** on the top navigation bar, and then follow these steps:
+Click **Entities** on the top navigation bar.
+
+![Click Entities]({{site.baseurl}}/images/3x/create-order-entity/entities-select.png)
+
+Follow these steps:
 
 1. Click <span class="circle-button"><i class="fa fa-wrench"></i></span> to open the entity tools control.
 1. Click **New Entity**. The entity creation dialog appears.

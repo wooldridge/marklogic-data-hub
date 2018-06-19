@@ -18,13 +18,11 @@ Use the following procedure to create a Product entity. We will add entity prope
 1. Type **Product** in the Title field.
 1. Click **Save**. The new Product entity is displayed. If you are prompted to update the index, click **No**.
 
+    ![New Entity]({{site.baseurl}}/images/3x/create-product-entity/create-product-entity.png)
+
 When you are done, you should see a representation of the Product entity similar to the following:
 
 ![Product Entity]({{site.baseurl}}/images/3x/create-product-entity/first-entity.png)
-
-The following picture summarizes the steps for creating the Product entity:
-
-![New Entity]({{site.baseurl}}/images/3x/create-product-entity/create-product-entity.png)
 
 ## Next Up
 [Create the Product Input Flow](../create-product-input-flow/)
