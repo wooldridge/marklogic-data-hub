@@ -21,16 +21,21 @@ Use the following steps to configure the "Load Products" input flow, and then lo
 
 1. Click **Load Products** under **Input Flows**. The Run Input Flow wizard appears.
 1. Under **Input Files**, use the file browser to select the **input/products** directory.
+
+    ![Input Files]({{site.baseurl}}/images/3x/load-products-as-is/input-files.png)
+
 1. Under **General Options**, change **Input File Type** to **Delimited Text**.
+
+    ![General Options]({{site.baseurl}}/images/3x/load-products-as-is/general-options.png)
+    
 1. Under **Delimited Text Options**, slide the **Generate URI?** slider to the right so MarkLogic will generate a unique URI for each document you load. 
+    
+    ![Delimited Text Options]({{site.baseurl}}/images/3x/load-products-as-is/delimited-text-options.png)
+
 1. Scroll to the bottom of the wizard and click **SAVE OPTIONS**.
 1. Click **RUN IMPORT**. MarkLogic begins loading data. QuickStart displays a progress bar at the bottom of your browser.
 
 When the load finishes, QuickStart displays a completion notification at the bottom of your browser.
-
-The following graphic summarizes the procedure for configuring and running the Load Products input flow:
-
-![Configure Load Products]({{site.baseurl}}/images/3x/load-products-as-is/configure-load-products.png)
 
 ## Review Your Finished Job
 
