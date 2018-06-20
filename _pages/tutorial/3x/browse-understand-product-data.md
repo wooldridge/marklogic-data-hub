@@ -21,7 +21,7 @@ Click the first search result to see the raw document.
 
 You are shown the raw data.
 
-![Detail View]({{site.baseurl}}/images/3x/browse-understand-product-data/search-result-detail.png)
+![Detail View]({{site.baseurl}}/images/3x/browse-understand-product-data/search-result-detail.png){:.screenshot-border}
 
 ## Up Next
 

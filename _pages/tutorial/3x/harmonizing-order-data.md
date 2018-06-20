@@ -51,7 +51,7 @@ Here is the final collector.sjs code:
 1. Click **SAVE**.
 1. Click the **Content** tab.
 
-![Click Content Tab]({{site.baseurl}}/images/3x/harmonizing-order-data/save-order-collector.png)
+![Click Content Tab]({{site.baseurl}}/images/3x/harmonizing-order-data/save-order-collector.png){:.screenshot-border}
 
 <hr>
 
@@ -106,7 +106,7 @@ You should see harmonized documents in the search results.
 
 Click a result to see the raw data.
 
-![Harmonized Product Detail]({{site.baseurl}}/images/3x/harmonizing-order-data/harmonized-order-details.png)
+![Harmonized Product Detail]({{site.baseurl}}/images/3x/harmonizing-order-data/harmonized-order-details.png){:.screenshot-border}
 
 ## Up Next
 

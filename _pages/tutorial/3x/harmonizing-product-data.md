@@ -123,7 +123,7 @@ To explore the harmonized data:
 1. Select **Final** in the database dropdown. The search results show the harmonized documents.
 1. Click a result to see the harmonized data. For example:
 
-![Harmonized Product Detail]({{site.baseurl}}/images/3x/harmonizing-product-data/harmonized-product-details.png)
+![Harmonized Product Detail]({{site.baseurl}}/images/3x/harmonizing-product-data/harmonized-product-details.png){:.screenshot-border}
 
 ## Up Next
 

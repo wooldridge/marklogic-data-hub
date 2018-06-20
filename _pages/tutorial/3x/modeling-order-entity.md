@@ -51,7 +51,10 @@ $76.98
 
 Now, we can model our Order entity. 
 
-To begin, click **Entities** in the top navigation bar, and then open the entity editor by clicking on the **pencil** icon (<i class="fa fa-pencil"></i>) in the upper right corner of the **Order** entity.
+1. Click **Entities** in the top navigation bar.
+1. Open the entity editor by clicking on the **pencil** icon (<i class="fa fa-pencil"></i>) in the upper right corner of the Order entity.
+
+    ![Open Editor]({{site.baseurl}}/images/3x/modeling-order-entity/open-editor.png)
 
 ## Add the **id** Property
 1. Click **+**{:.circle-button} below **Properties** to add a new property.
