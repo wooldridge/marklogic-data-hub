@@ -87,14 +87,13 @@ After opening the QuickStart application, you must step through a sequence of sc
 <br/>![Hub Directory]({{site.baseurl}}/images/3x/install/hub-wizard-6.png){:.screenshot}
 
 Congratulations! The Data Hub Framework is installed and ready to use.
-You are taken to the Dashboard page where you can see the document counts of all four hub databases. Additionally, you can clear out the databases one at a time or all in one fell swoop.
+You are taken to the Dashboard page where you can see the document counts of all three hub databases. Additionally, you can clear out the databases one at a time or all in one fell swoop.
 
-The following are the four databases and what they store:
+The following are the three databases and what they store:
 
 - **Staging**: incoming data
 - **Final**: harmonized data
-- **Job**: data about the jobs you run
-- **Trace**: debugging data about each document that has been harmonized
+- **Jobs**: data about the jobs run and tracing data about each harmonized document
 
 ![Hub Directory]({{site.baseurl}}/images/3x/install/hub-wizard-7.png)
 
