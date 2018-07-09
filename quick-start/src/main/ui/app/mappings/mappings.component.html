@@ -2,7 +2,7 @@
   <div gm-row class="flex-100 maps-page">
     <div gm-col class="flex-0 maps-bar">
       <span class="mdl-layout-title">
-        Entity Maps
+        Maps
       </span>
 
       <ul class="entities mdl-list">
@@ -24,7 +24,7 @@
                   <li
                     class="map mdl-list__item"
                     *ngFor="let map of getMappingsByEntity(entity)">
-                    <div [attr.data-map-name]="map.name">
+                    <div [attr.data-map-name]="map.name" (click)="editMapping(entity, map)">
                       <span class="mdl-list__item-primary-content">
                         <i class="fa fa-map"></i>
                         {{ map.name }}
@@ -44,7 +44,8 @@
     <gm-divider></gm-divider>
     <div gm-col class="flex-100">
 
-
+      <router-outlet></router-outlet>
+      
       <div id="map-heading">
         <h1>Mappings</h1>
       </div>
