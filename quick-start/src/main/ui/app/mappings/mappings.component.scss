@@ -1,16 +1,138 @@
 @import '../../styles/variables';
 
-$title-color: unquote("rgb(#{$palette-datahub-100})");
 $table-title-color: unquote("rgb(#{$palette-datahub-50})");
-$selected-color: unquote("rgb(#{$palette-datahub-500})");
+$hover-color: unquote("rgb(#{$palette-datahub-A100})");
+$layout-title-color: unquote("rgb(#{$palette-datahub-100})");
+$error: unquote("rgb(#{$palette-datahub-red})");
+$list-bg-color: #f1f1ff;
+$footer-height: 80px;
+$header-height: 48px;
 
-.map-container {
-  width: 1200px;
-  padding: 0;
+[gm-grid] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+[gm-col] {
+  position: relative;
+  // height: 100%;
+  overflow: hidden;
+}
+
+.maps-bar {
+  min-width: 300px;
+
+  ul.entities {
+    position: absolute;
+    bottom: $footer-height;
+    overflow: auto;
+    top: $header-height;
+    margin: 0px;
+  }
+}
+
+.mdl-layout-title {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: $layout-title-color;
+  color: black;
+  height: $header-height;
+}
+
+.entities {
+  margin-top: 0px;
+  padding-top: 0px;
 }
 
 .entity {
-  margin-bottom: 30px;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.mdl-list {
+  width: 100%;
+  padding: 0px;
+}
+
+.mdl-list__item {
+  min-height: 32px;
+  padding: 0px;
+}
+
+.mdl-list__item .mdl-list__item-primary-content {
+  overflow: hidden;
+  i {
+    margin-right: 10px;
+  }
+  i.fa-trash, i.fa-plus {
+    margin-right: 0;
+  }
+}
+
+.mdl-list__item-primary-content {
+  overflow: auto;
+  width: 100%;
+  padding: 12px 8px 4px 8px;
+}
+
+.map-container {
+  .padder {
+    padding: 0px 10px;
+  }
+  padding: 0px 0px 0px 20px;
+  width: 100%;
+  box-sizing: border-box;
+  max-height: 5000px;
+  overflow: hidden;
+  position: relative;
+  background-color: $list-bg-color;
+  .mdl-list__item-primary-content {
+    padding: 6px 8px;
+  }
+}
+
+
+/* .map-container {
+  width: 1200px;
+  padding: 0;
+} */
+
+li.map.mdl-list__item {
+  flex-wrap: wrap;
+  &:hover {
+    background-color: $hover-color;
+  }
+  cursor: pointer;
+}
+
+li.map.mdl-list__item div {
+  width: 100%;
+}
+
+li.map.mdl-list__item div ul {
+  list-style: none;
+}
+
+li.map.mdl-list__item div ul li {
+  padding: 0 3px;
+  cursor: pointer;
+}
+
+.fa-trash {
+  color: #999;
+  &:hover {
+    color: $error;
+  }
+}
+
+.entity {
+  margin-bottom: 10px;
 }
 
 #map-heading {
