@@ -22,6 +22,7 @@
                 <ul class="maps mdl-list">
                   <li
                     class="map mdl-list__item"
+                    [ngClass]="{'active': isActiveMap(entity, map)}"
                     *ngFor="let map of getMappingsByEntity(entity)">
                     <div [attr.data-map-name]="map.name" (click)="editMapping(entity, map)">
                       <span class="mdl-list__item-primary-content">

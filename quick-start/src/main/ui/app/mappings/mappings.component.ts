@@ -21,8 +21,8 @@ export class MappingsComponent implements OnInit {
   public conns: Object = {};
   private mapPrefix: string = 'dhf-map-';
 
-  private entityName: string;
-  private mapName: string;
+  private activeEntity: Entity;
+  private activeMapping: Mapping;
   public flowName: string;
 
   private entitiesLoaded: boolean = false;
@@ -87,6 +87,11 @@ export class MappingsComponent implements OnInit {
     return this.entityMappingsMap.get(entity);
   }
 
+  isActiveMap(entity: Entity, mapping: Mapping): boolean {
+    return this.activeEntity && this.activeEntity.name === entity.name &&
+      this.activeMapping && this.activeMapping.name === mapping.name;
+  }
+
   showNewMapping(entity: Entity) {
     let actions = {
       save: (newMapName: string) => {
@@ -101,12 +106,13 @@ export class MappingsComponent implements OnInit {
           "properties": {}
         }
 
-        console.log('mapObj', mapObj);
-
-        let tmpEntityName = entity.name;
 
         this.mapService.saveMap(newMapName, JSON.stringify(mapObj)).subscribe((res: any) => {
-          this.router.navigate(['/mappings', tmpEntityName, newMapName]);
+          this.mapService.getMap(newMapName).subscribe((res: any) => {
+            this.activeEntity = entity;
+            this.activeMapping = new Mapping().fromJSON(res);
+            this.router.navigate(['/mappings', entity.name, newMapName]);
+          });
         });
 
       }
@@ -122,8 +128,8 @@ export class MappingsComponent implements OnInit {
   }
 
   editMapping(entity: Entity, mapping: Mapping){
-    this.entityName = entity.name;
-    this.mapName = mapping.name;
+    this.activeEntity = entity;
+    this.activeMapping = mapping;
     this.router.navigate(['/mappings', entity.name, mapping.name], {queryParams: {entityName: entity.name, mapName: mapping.name}});
   }
 
@@ -139,7 +145,7 @@ export class MappingsComponent implements OnInit {
         this.mapService.deleteMap(mapping).subscribe((res: any) => {
           this.mapService.getMappings();
           // Delete mapping currently being viewed?
-          if (mapping.name === this.mapName) {
+          if (this.activeMapping && this.activeMapping.name === mapping.name) {
             this.router.navigate(['/mappings']);
           }
         });;
