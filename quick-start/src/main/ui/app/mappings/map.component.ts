@@ -51,8 +51,8 @@ export class MapComponent implements OnInit {
   public editingSourceContext = false;
 
   //edit description
-  public editDescriptionVal = '';
-  public editingDescription = false;
+  public editDescVal = '';
+  public editingDesc = false;
   /**
    * Load chosen entity to use as harmonized model.
    */
@@ -153,9 +153,40 @@ export class MapComponent implements OnInit {
     }
   }
 
-  updateDescription() {
-    this.mapping.description = this.editDescriptionVal;
-    this.editingDescription = false;
+  /**
+   * Cancel the editing of the source document URI.
+   */
+  cancelEditURI() {
+    this.editURIVal = this.sampleDocURI;
+    this.editingURI = false;
+  }
+
+  /**
+   * Cancel the editing of the source document URI.
+   */
+  cancelEditDesc() {
+    this.editDescVal = this.mapping.description;
+    this.editingDesc = false;
+  }
+
+  keyPressURI(event) {
+    if (event.key === 'Enter') {
+      this.updateSampleDoc();
+    }
+  }
+
+  updateDesc() {
+    this.mapping.description = this.editDescVal;
+    this.mapService.saveMap(this.mapping.name, JSON.stringify(this.mapping)).subscribe((res: any) => {
+      console.log('map saved with edited description');
+    });
+    this.editingDesc = false;
+  }
+
+  keyPressDesc(event) {
+    if (event.key === 'Enter') {
+      this.updateDesc();
+    }
   }
 
   constructor(
@@ -201,14 +232,6 @@ export class MapComponent implements OnInit {
       delete this.conns[entityPropName];
     this.editingURI = false; // close edit box if open
     event.stopPropagation();
-  }
-
-  /**
-   * Cancel the editing of the source document URI.
-   */
-  cancelEditURI() {
-    this.editURIVal = this.sampleDocURI;
-    this.editingURI = false;
   }
 
   /**

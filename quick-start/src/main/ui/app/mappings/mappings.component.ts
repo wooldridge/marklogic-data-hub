@@ -130,7 +130,7 @@ export class MappingsComponent implements OnInit {
   editMapping(entity: Entity, mapping: Mapping){
     this.activeEntity = entity;
     this.activeMapping = mapping;
-    this.router.navigate(['/mappings', entity.name, mapping.name], {queryParams: {entityName: entity.name, mapName: mapping.name}});
+    this.router.navigate(['/mappings', entity.name, mapping.name]);
   }
 
   deleteMapping(event: MouseEvent, mapping: Mapping): void {
