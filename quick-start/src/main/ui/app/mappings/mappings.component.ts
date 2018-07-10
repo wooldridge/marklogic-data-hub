@@ -48,7 +48,7 @@ export class MappingsComponent implements OnInit {
    * Initialize the UI.
    */
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe((params: Params) => {
+    this.activatedRoute.params.subscribe((params: Params) => {
       //this.loadMap();
     });
     this.getEntities();
@@ -87,23 +87,28 @@ export class MappingsComponent implements OnInit {
     return this.entityMappingsMap.get(entity);
   }
 
-  /**
-   * Handle cancel button event
-   */
-  cancelMap(): void {
-    let result = this.dialogService.confirm('Cancel and lose any changes?', 'Stay On Page', 'OK');
-    result.subscribe( () => {
-        this.router.navigate(['/flows', this.entityName, this.flowName, 'HARMONIZE']);
-      },(err: any) => {
-        console.log('map cancel aborted');
-      }
-    );
-  }
-
   showNewMapping(entity: Entity) {
     let actions = {
       save: (newMapName: string) => {
-        this.router.navigate(['/mappings/map'], {queryParams: {entityName: entity.name, mapName: newMapName}});
+
+        let mapObj = {
+          "language" : "zxx",
+          "name" : newMapName,
+          "description" : "",
+          "version" : "1",
+          "targetEntityType" : entity.info.baseUri + '/'+ entity.name +'-0.0.' + entity.info.version + '/' + entity.name,  // TODO
+          "sourceContext": '',
+          "properties": {}
+        }
+
+        console.log('mapObj', mapObj);
+
+        let tmpEntityName = entity.name;
+
+        this.mapService.saveMap(newMapName, JSON.stringify(mapObj)).subscribe((res: any) => {
+          this.router.navigate(['/mappings', tmpEntityName, newMapName]);
+        });
+
       }
     };
     this.dialogService.showCustomDialog({
@@ -117,7 +122,9 @@ export class MappingsComponent implements OnInit {
   }
 
   editMapping(entity: Entity, mapping: Mapping){
-    this.router.navigate(['/mappings/map'], {queryParams: {entityName: entity.name, mapName: mapping.name}});
+    this.entityName = entity.name;
+    this.mapName = mapping.name;
+    this.router.navigate(['/mappings', entity.name, mapping.name], {queryParams: {entityName: entity.name, mapName: mapping.name}});
   }
 
   deleteMapping(event: MouseEvent, mapping: Mapping): void {
@@ -131,6 +138,10 @@ export class MappingsComponent implements OnInit {
     this.dialogService.confirm(`Really delete ${mapping.name} mapping?`, 'Cancel', 'Delete').subscribe(() => {
         this.mapService.deleteMap(mapping).subscribe((res: any) => {
           this.mapService.getMappings();
+          // Delete mapping currently being viewed?
+          if (mapping.name === this.mapName) {
+            this.router.navigate(['/mappings']);
+          }
         });;
       },
       () => {});

@@ -9,8 +9,7 @@
         <li
           class="entity mdl-list__item"
           *ngFor="let entity of entities">
-          <div [attr.data-entity]="entity.name" class="mdl-list__item-primary-content"
-               (click)="toggleEntity(entity)">
+          <div [attr.data-entity]="entity.name" class="mdl-list__item-primary-content">
             <i class="fa fa-industry"></i> {{ entity.name }}
             <div class="mdl-layout-spacer"></div>
             <mdl-button mdl-button-type="icon" id="new-map">
@@ -45,59 +44,60 @@
     <div gm-col class="flex-100">
 
       <router-outlet></router-outlet>
-      
-      <div id="map-heading">
+
+      <!-- PREVIOUS VERSION OF MAPPING MGR WITH TABLES, CAN BE DELETED -->
+      <!-- <div id="map-heading">
         <h1>Mappings</h1>
       </div>
 
-      <div  class="entity-container">
+      <div  class="entity-container"> -->
         <!-- list entities -->
-        <div *ngFor="let entity of entities;" class="entity">
+      <!--  <div *ngFor="let entity of entities;" class="entity">
 
-          <h4 class="entity-header">{{entity.name}}
-            <span *ngIf="entity.hasDocs">
-            <mdl-button mdl-button-type="icon" id="new-mapping" (click)="showNewMapping(entity)">
-            <i class="fa fa-plus"></i>
-          </mdl-button>
-            </span>
-          <span *ngIf="!entity.hasDocs" class="load-docs">Load source documents to create a mapping from for this entity.</span>
-          </h4>
-          <!-- each map -->
-          <table class="mappings-table">
-            <thead>
-            <tr>
-              <th class="">Name</th>
-              <th>Description</th>
-              <th>Version #</th>
-              <th class="icons"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let mapping of getMappingsByEntity(entity);let i = index;" class="mapping-row" (click)="editMapping(entity, mapping)">
-              <td class="name">{{mapping.name}}</td>
-              <td class="description">{{mapping.description}}</td>
-              <td class="version">{{mapping.version}}</td>
-              <td class="icons"><i class="fa fa-trash" (click)="deleteMapping($event, mapping)"></i></td>
-            </tr>
-            </tbody>
-          </table>
+         <h4 class="entity-header">{{entity.name}}
+           <span *ngIf="entity.hasDocs">
+           <mdl-button mdl-button-type="icon" id="new-mapping" (click)="showNewMapping(entity)">
+           <i class="fa fa-plus"></i>
+         </mdl-button>
+           </span>
+         <span *ngIf="!entity.hasDocs" class="load-docs">Load source documents to create a mapping from for this entity.</span>
+         </h4> -->
+         <!-- each map -->
+      <!-- <table class="mappings-table">
+        <thead>
+        <tr>
+          <th class="">Name</th>
+          <th>Description</th>
+          <th>Version #</th>
+          <th class="icons"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let mapping of getMappingsByEntity(entity);let i = index;" class="mapping-row" (click)="editMapping(entity, mapping)">
+          <td class="name">{{mapping.name}}</td>
+          <td class="description">{{mapping.description}}</td>
+          <td class="version">{{mapping.version}}</td>
+          <td class="icons"><i class="fa fa-trash" (click)="deleteMapping($event, mapping)"></i></td>
+        </tr>
+        </tbody>
+      </table>
 
-        </div> <!-- for -->
+    </div> --> <!-- for -->
 
         <!-- unassigned to models -->
-        <div class="entity">
-          <h4>Unassigned or Unmatched Mappings</h4>
-          <!-- each map -->
-          <table class="mappings-table">
-            <thead>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
+      <!-- <div class="entity">
+        <h4>Unassigned or Unmatched Mappings</h4> -->
+        <!-- each map -->
+      <!-- <table class="mappings-table">
+        <thead>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
 
-        </div> <!-- unassigned -->
+    </div> --> <!-- unassigned -->
 
-      </div><!-- entity list container -->
+      <!-- </div> --><!-- entity list container -->
 
     </div>
   </div>

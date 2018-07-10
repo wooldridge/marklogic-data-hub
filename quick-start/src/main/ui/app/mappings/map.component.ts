@@ -171,9 +171,9 @@ export class MapComponent implements OnInit {
    * Initialize the UI.
    */
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe((params: Params) => {
-      this.entityName = params['entityName']|| null;
-      this.mapName = params['mapName'] || null;
+    this.activatedRoute.params.subscribe((params: Params) => {
+      this.entityName = params['entity']|| null;
+      this.mapName = params['map'] || null;
 
       this.loadEntity();
       this.loadSampleDoc(this.entityName)
@@ -253,9 +253,12 @@ export class MapComponent implements OnInit {
     // Temporarily saving locally
     //localStorage.setItem(this.mapPrefix + this.mapName, JSON.stringify(mapObj));
 
+    let tmpEntityName = this.chosenEntity.name;
+    let tmpMapName = this.mapName;
+
     // TODO use service to save
     this.mapService.saveMap(this.mapName, JSON.stringify(mapObj)).subscribe((res: any) => {
-      this.router.navigate(['/mappings']);
+      this.router.navigate(['/mappings', tmpEntityName, tmpMapName]);
     });
   }
 
