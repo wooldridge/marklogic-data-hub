@@ -47,10 +47,30 @@
           </thead>
           <tbody>
             <tr *ngFor="let job of jobs" [ngClass]="{'error' : job.status === 'FAILED' }">
-              <td><i class="mdi" [ngClass]="getIconClass(job.flowType)"></i> {{job.flowType}}</td>
+              <td><i class="mdi" [ngClass]="getIconClass(job.flowType)"></i>
+                <a
+                  [routerLink]="['/browse']"
+                  [queryParams]="browseParams(job.flowType, job.flowType)"
+                >
+                  {{job.flowType}}
+                </a>
+              </td>
               <td>{{job.jobId}}</td>
-              <td>{{job.entityName}}</td>
-              <td>{{job.flowName}}</td>
+              <td>
+                <a
+                  [routerLink]="['/browse']"
+                  [queryParams]="browseParams(job.entityName, job.flowType)"
+                >
+                  {{job.entityName}}
+                </a>
+              </td>
+              <td>
+                <a
+                  [routerLink]="['/browse']"
+                  [queryParams]="browseParams(job.flowName, job.flowType)"
+                >{{job.flowName}}
+                </a>
+              </td>
               <td>{{job.status}}</td>
               <td>{{job.startTime | datePipe}}</td>
               <td><span *ngIf="job.endTime">{{getDuration(job)}} seconds</span></td>

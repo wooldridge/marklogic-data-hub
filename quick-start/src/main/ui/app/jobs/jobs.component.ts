@@ -157,6 +157,19 @@ export class JobsComponent implements OnChanges, OnDestroy, OnInit {
     return '';
   }
 
+  browseParams(collection: string, flowType: string) {
+    return {
+      p: 1,
+      d: (flowType === 'input') ? 'STAGING' : 'FINAL',
+      e: false,
+      Collection: this.removeSpaces(collection)
+    };
+  }
+
+  removeSpaces(text: string) {
+    return text.replace(new RegExp(' ', 'g'), '');
+  }
+
   updateFacets() {
     this.doSearch();
   }
