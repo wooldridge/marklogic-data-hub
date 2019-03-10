@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { MatDialog, MatPaginator, MatSort, MatTable, MatTableDataSource} from "@angular/material";
 import { MatchOption } from "../../../models/match-options.model";
 import { AddMatchOptionDialogComponent } from './add-match-option-dialog.component';
@@ -25,6 +25,8 @@ export class MatchOptionsUiComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   @ViewChild(MatSort) sort: MatSort;
+
+  public weightFocus: object = {};
 
   constructor(
     public dialog: MatDialog
@@ -86,6 +88,11 @@ export class MatchOptionsUiComponent {
   renderRows(): void {
     this.updateDataSource();
     this.table.renderRows();
+  }
+
+  keyPress(mOpt): void {
+     mOpt.editing = !mOpt.editing;
+     this.weightFocus[mOpt.weight] = false;
   }
 
 }

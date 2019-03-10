@@ -21,6 +21,8 @@ import { MatchThresholdsUiComponent } from "./mastering/ui/match-thresholds-ui.c
 import { AddMatchOptionDialogComponent } from './mastering/ui/add-match-option-dialog.component';
 import { AddMatchThresholdDialogComponent } from './mastering/ui/add-match-threshold-dialog.component';
 
+import { FocusElementDirective } from './mastering/ui/focus-element.directive';
+
 @NgModule({
   declarations: [
     EditFlowComponent,
@@ -34,7 +36,8 @@ import { AddMatchThresholdDialogComponent } from './mastering/ui/add-match-thres
     MatchOptionsUiComponent,
     MatchThresholdsUiComponent,
     AddMatchOptionDialogComponent,
-    AddMatchThresholdDialogComponent
+    AddMatchThresholdDialogComponent,
+    FocusElementDirective
   ],
   imports     : [
     CommonModule,

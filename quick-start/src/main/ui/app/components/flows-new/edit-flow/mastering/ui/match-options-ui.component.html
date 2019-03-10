@@ -51,9 +51,13 @@
         <ng-container matColumnDef="weight">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Weight</mat-header-cell>
           <mat-cell *matCellDef="let mOpt">
-            <a>
+            <a *ngIf="!mOpt.editing" (click)="mOpt.editing = !mOpt.editing; weightFocus[mOpt.weight] = true;">
               {{mOpt.weight}}
             </a>
+            <mat-form-field floatLabel="never" *ngIf="mOpt.editing" (keypress)="keyPress(mOpt)" class="editing-field">
+              <!-- https://stackoverflow.com/questions/46010867/detect-click-outside-element-in-angular-4-using-directives -->
+              <input matInput placeholder="Weight" [value]="mOpt.weight" [(ngModel)]="mOpt.weight" [focusElement]="weightFocus[mOpt.weight]">
+            </mat-form-field>
           </mat-cell>
         </ng-container>
 
