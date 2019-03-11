@@ -41,9 +41,12 @@
         <ng-container matColumnDef="above">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Weight</mat-header-cell>
           <mat-cell *matCellDef="let mThr">
-            <a>
+            <a *ngIf="!mThr.editing" (click)="weightClicked($event, mThr)" class="weight-value">
               {{mThr.above}}
             </a>
+            <mat-form-field floatLabel="never" *ngIf="mThr.editing" (keypress)="weightKeyPress($event, mThr)" class="editing-field">
+              <input matInput [value]="mThr.above" [(ngModel)]="mThr.above" [focusElement]="weightFocus[mThr.label]">
+            </mat-form-field>
           </mat-cell>
         </ng-container>
 

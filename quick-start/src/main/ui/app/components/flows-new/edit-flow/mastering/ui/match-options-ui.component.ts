@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit, ViewChild, HostListener } from '@angular/core';
 import { MatDialog, MatPaginator, MatSort, MatTable, MatTableDataSource} from "@angular/material";
 import { MatchOption } from "../../../models/match-options.model";
 import { AddMatchOptionDialogComponent } from './add-match-option-dialog.component';
@@ -90,9 +90,24 @@ export class MatchOptionsUiComponent {
     this.table.renderRows();
   }
 
-  keyPress(mOpt): void {
-     mOpt.editing = !mOpt.editing;
-     this.weightFocus[mOpt.weight] = false;
+  weightClicked(event, mOpt) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.matchOptions.options.forEach(m => { m.editing = false; })
+    mOpt.editing = !mOpt.editing;
+    this.weightFocus[mOpt.propertyName] = true;
+  }
+
+  weightKeyPress(event, mOpt): void {
+    if (event.key === 'Enter') {
+      mOpt.editing = !mOpt.editing;
+      this.weightFocus[mOpt.propertyName] = false;
+    }
+  }
+
+  // Close weight input on outside click
+  @HostListener('document:click', ['$event', 'this']) weightClickOutside($event, mOpt){
+    this.matchOptions.options.forEach(m => { m.editing = false; })
   }
 
 }

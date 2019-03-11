@@ -33,6 +33,11 @@
 /deep/ .mat-column-weight div.mat-form-field-wrapper {
   position: absolute;
   top: -25px;
+  width: 30px;
+}
+
+/deep/ .mat-cell a.weight-value {
+  cursor: pointer!important;
 }
 
 $header-height: 70px !default;
