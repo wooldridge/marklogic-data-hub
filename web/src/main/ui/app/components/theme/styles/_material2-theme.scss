@@ -124,4 +124,33 @@ $dhf-app-theme: mat-light-theme($dhf-app-primary, $dhf-app-accent, $dhf-app-warn
   .bar.custom {
     background: $color-custom;
   }
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+  .move-icon {
+    position: absolute;
+    top: 0;
+    left: 1%;
+    cursor: move;
+    width: 16px !important;
+    height: 16px !important;
+    margin-bottom: 20px;
+  }
+  .step-icons {
+    margin: 3px 0;
+    .material-icons {
+      font-size: 20px;
+    }
+  }
+  .check-icon {
+    color: #00e600;
+  }
+  .grey-icon {
+    color: rgba(169,169,169,.5);
+  }
+  .delete-icon {
+    cursor: pointer;
+    color: rgba(169,169,169,.5);
+  }
 }
