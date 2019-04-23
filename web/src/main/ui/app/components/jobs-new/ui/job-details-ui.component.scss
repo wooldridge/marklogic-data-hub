@@ -311,3 +311,17 @@ button {
   justify-content: center !important;
   padding-right: 24px;
 }
+
+/* .view-output {
+    display: inline-block;
+    margin: 14px 0 0 0;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+} */
+
+mat-icon.view-output {
+  font-size: 12px;
+  position: relative;
+  top: 10px;
+}

@@ -109,11 +109,11 @@
           <mat-cell class="step-status" *matCellDef="let step">
             <span class="capitalize" *ngIf="step.status">
               <span *ngIf="step.status !== 'failed'">
-                {{step.status}}
+                {{step.status}} <mat-icon class="view-output" (click)="openOutputDialog(step)">error</mat-icon>
               </span>
               <span *ngIf="step.status === 'failed'">
                 <a (click)="openStatusDialog(step)">
-                  {{step.status}}
+                  {{step.status}} <mat-icon class="view-output" (click)="openOutputDialog(step)">error</mat-icon>
                 </a>
               </span>
             </span>
