@@ -1,4 +1,5 @@
-import { Component, Input, Output, OnInit, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter,
+         ViewChild, OnChanges, SimpleChanges} from '@angular/core';
 import { Entity } from '../../../../models';
 import { EntitiesService } from '../../../../models/entities.service';
 import { SearchService } from '../../../search/search.service';
@@ -80,6 +81,10 @@ export class MappingComponent implements OnInit {
     private entitiesService: EntitiesService,
     private envService: EnvironmentService
   ) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('changes', changes);
+  }
 
   getMapName(): string {
     return this.flow.name + '-' + this.step.name;
