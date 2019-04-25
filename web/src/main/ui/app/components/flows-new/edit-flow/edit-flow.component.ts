@@ -146,12 +146,15 @@ export class EditFlowComponent implements OnInit {
     });
   }
   createStep(stepObject) {
+    console.log('createStep', stepObject);
     this.setStepDefaults(stepObject.step);
     this.manageFlowsService.createStep(this.flow.id, stepObject.index, stepObject.step).subscribe(resp => {
+      console.log('manageFlowsService.createStep', resp);
       this.stepsArray.splice(stepObject.index, 0, resp);
       console.log('stepsArray', this.stepsArray);
       this.manageFlowsService.getFlowById(this.flowId).subscribe( resp => {
         this.flow = Flow.fromJSON(resp);
+        console.log('getFlowById', this.flow);
       });
       if (stepObject.step.stepDefinitionType === this.stepType.MAPPING) {
         this.createMapping(resp);
@@ -168,6 +171,7 @@ export class EditFlowComponent implements OnInit {
           step = resp;
         }
       });
+      console.log('updateStep', step);
     });
   }
   deleteStep(stepId) {
