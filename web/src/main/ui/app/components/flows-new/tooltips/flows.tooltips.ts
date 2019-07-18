@@ -39,7 +39,7 @@ export class FlowsTooltips {
         dictionaryURI: 'The path to the dictionary used to compare words phonetically.',
         distanceThresh: 'The phonetic distance below which two strings are considered similar.',
         collation: 'The URI for a collation, which specifies the order for sorting strings.',
-        zip5matches9: 'The weight to add to the exact match weight when a 5-digit zip code matches the first five digits of a 9-digit zip code.',
+        zip5matches9: 'The weight to apply when a 5-digit zip code matches the first five digits of a 9-digit zip code.',
         zip9matches5: 'The weight to apply when the first five digits of a 9-digit zip code match a 5-digit zip code.',
         propsReduce: 'One or more properties to compare.',
         weightReduce: 'How much to reduce the weight when all compared properties match.',
