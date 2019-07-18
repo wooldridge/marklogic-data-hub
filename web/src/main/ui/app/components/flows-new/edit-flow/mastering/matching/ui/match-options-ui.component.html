@@ -124,7 +124,7 @@
             </div>
             <div *ngIf="mOpt.matchType === 'zip'" class="other-content">
               <div>
-                <span class="other-label">5-Matches-9 Boost</span>
+                <span class="other-label">5-vs-9 Match Weight</span>
                 <a *ngIf="mOpt.editing !== 'zip5match9'" (click)="valueClicked($event, mOpt, 'zip5match9')" class="distance-zip5match9-value">
                   {{mOpt.zip5match9}}
                 </a>
@@ -133,7 +133,7 @@
                 </mat-form-field>
               </div>
               <div>
-                <span class="other-label">9-Matches-5 Weight</span>
+                <span class="other-label">9-vs-5 Match Weight</span>
                 <a *ngIf="mOpt.editing !== 'zip9match5'" (click)="valueClicked($event, mOpt, 'zip9match5')" class="distance-zip9match5-value">
                   {{mOpt.zip9match5}}
                 </a>
