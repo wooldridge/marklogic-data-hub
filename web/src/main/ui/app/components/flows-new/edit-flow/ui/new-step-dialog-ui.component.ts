@@ -206,13 +206,15 @@ export class NewStepDialogUiComponent implements OnInit {
       this.tooltips = FlowsTooltips.mapping;
       this.newStep = Step.createMappingStep();
     }
-    if (type === StepType.MASTERING) {
+    if ( type === StepType.MATCHING ||
+         type === StepType.MERGING ||
+         type === StepType.MASTERING ) {
       this.newStepForm.patchValue({
         sourceDatabase: this.databaseObject.final,
         targetDatabase: this.databaseObject.final
       });
       this.tooltips = FlowsTooltips.mastering;
-      this.newStep = Step.createMasteringStep();
+      this.newStep = Step.createMasteringStep(type);
     }
     if (type === StepType.CUSTOM) {
       this.newStepForm.patchValue({
@@ -241,9 +243,13 @@ export class NewStepDialogUiComponent implements OnInit {
     this.isIngestion = type === StepType.INGESTION;
     this.isCustom = type === StepType.CUSTOM;
     this.isMapping = type === StepType.MAPPING;
+    this.isMatching = type === StepType.MATCHING;
+    this.isMerging = type === StepType.MERGING;
     this.isMastering = type === StepType.MASTERING;
-    this.sourceRequired = this.isMapping || this.isMastering;
-    this.entityRequired = this.isMapping || this.isMastering;
+    this.sourceRequired = this.isMapping || this.isMatching || 
+      this.isMerging || this.isMastering;
+    this.entityRequired = this.isMapping || this.isMatching || 
+      this.isMerging || this.isMastering;
 
     if (this.isCustom) {
       this.outputFormatOptions = this.outputFormats;

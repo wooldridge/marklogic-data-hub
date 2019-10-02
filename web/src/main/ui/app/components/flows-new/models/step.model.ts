@@ -8,6 +8,8 @@ import {isNumber} from "util";
 export enum StepType {
   INGESTION = 'INGESTION',
   MAPPING = 'MAPPING',
+  MATCHING = 'MATCHING',
+  MERGING = 'MERGING',
   MASTERING = 'MASTERING',
   CUSTOM = 'CUSTOM'
 }
@@ -83,9 +85,9 @@ export class Step {
     return step;
   }
 
-  static createMasteringStep(): Step {
+  static createMasteringStep(type): Step {
     const step = new Step();
-    step.options = new MasteringOptions();
+    step.options = new MasteringOptions(type);
     step.options.outputFormat = 'json';
     step.customHook = {"module" : "",
     "parameters" : {},
