@@ -78,6 +78,17 @@
     </span> -->
  <br>
  <br>
+
+    <div id="entity-table-container">
+      <app-entity-table-ui
+        [entityProps]="this.entityProps"
+        [showHeader]="true"
+        [nestedLevel]="0"
+        [srcProps]="this.sampleDocSrcProps"
+        [functionLst]="this.functionLst"
+      ></app-entity-table-ui>
+    </div>
+ 
     <mat-table id="source-new-table-entities" 
               [dataSource]="targetEntity?.definition.properties" 
               class="Entity-props" 

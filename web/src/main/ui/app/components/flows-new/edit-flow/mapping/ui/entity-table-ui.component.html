@@ -1,0 +1,110 @@
+<mat-table 
+  id="entity-table" 
+  [dataSource]="dataSource"
+  multiTemplateDataRows
+  matSort
+>
+
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      Name 
+    </mat-header-cell>
+    <mat-cell *matCellDef="let prop"> 
+      <span *ngFor="let in of counter(this.nestedLevel) ;let i = index">
+        <span class="spacer"></span>
+      </span>
+      {{prop.name}}
+      &nbsp;&nbsp;
+      <mat-icon 
+        *ngIf="isNested(prop) && showProp[prop.name]"
+        class="prop-toggle prop-toggle-{{prop.name}}"
+        (click)="toggleProp(prop.name)"
+      ><i class="fa fa-angle-up fa-lg"></i>
+      </mat-icon> 
+      <mat-icon
+        *ngIf="isNested(prop) && !showProp[prop.name]" 
+        class="prop-toggle prop-toggle-{{prop.name}}"
+        (click)="toggleProp(prop.name)"
+      ><i class="fa fa-angle-down fa-lg"></i>
+      </mat-icon> 
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="datatype">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> 
+      Type 
+    </mat-header-cell>
+    <mat-cell *matCellDef="let prop"> 
+      {{this.getDatatype(prop)}} 
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="expression">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> 
+      Expression 
+    </mat-header-cell>
+    <mat-cell *matCellDef="let prop"> 
+      <div class="textField" *ngIf="!isNested(prop)">
+        <textarea id="edit-expression" matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" #fieldName
+          [(ngModel)]="mapExpressions[prop.name]"
+          (change)="handleSelection(prop.name, mapExpressions[prop.name])" type="text"
+          class="map-expr"></textarea>
+      </div>
+      &nbsp;&nbsp;<mat-icon id="fields-list" *ngIf="!isNested(prop)"
+        class="list-icon" [matMenuTriggerFor]="fieldListMenu" [matMenuTriggerData]="{indx: k}"><i
+          class="fa fa-list fa-xs"></i>
+      </mat-icon>
+      &nbsp;&nbsp;<button id="function-list" *ngIf="!isNested(prop)"
+        class="function-icon" [matMenuTriggerFor]="menu" [matMenuTriggerData]="{ind: prop.name,indx: k}">f(x)</button>
+      &nbsp;&nbsp;
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="value">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> 
+      Value 
+    </mat-header-cell>
+    <mat-cell *matCellDef="let prop"> 
+      
+    </mat-cell>
+  </ng-container>
+  
+  <ng-container matColumnDef="nested">
+    <mat-cell class="nested-cell" *matCellDef="let prop" [attr.colspan]="2">
+      <div *ngIf="prop.subProperties" id="entity-table-nested-container" [ngClass]="{'hide': !showProp[prop.name]}">
+        <app-entity-table-ui
+          [entityProps] = "prop.subProperties"
+          [showHeader] = "false"
+          [nestedLevel] = "this.nestedLevel + 1"
+        ></app-entity-table-ui>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row 
+    *matHeaderRowDef="columnsToDisplay"
+    [hidden]="!this.showHeader"
+  ></mat-header-row>
+  <mat-row 
+    *matRowDef="let prop; columns: columnsToDisplay"
+  ></mat-row> 
+  <mat-row 
+    *matRowDef="let prop; columns: ['nested']" 
+    class="nested-row"
+    [hidden]="!prop.subProperties"
+    [attr.colspan]="2"
+  ></mat-row>
+
+</mat-table>   
+
+<mat-menu class="mat-menu-list" #menu="matMenu">
+  <ng-template matMenuContent let-index="indx">
+    <div class="mat-menu-list-btn" mat-menu-item *ngFor="let func of functionLst | keyvalue" (click)="insertFunction(func.key,indx)">{{func.key}}</div>
+  </ng-template>
+</mat-menu>
+   
+<mat-menu class="mat-menu-list" #fieldListMenu="matMenu">
+  <ng-template matMenuContent let-index="indx">
+    <div class="mat-menu-list-btn" mat-menu-item *ngFor="let srcProp of this.srcProps" (click)="insertField(srcProp.key,indx) ">{{srcProp.key}}</div>
+  </ng-template>
+</mat-menu>
