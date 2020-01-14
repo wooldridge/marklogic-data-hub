@@ -1,6 +1,6 @@
 import React, { CSSProperties, useState } from 'react';
 import styles from './load-data-card.module.scss';
-import {Card, Icon, Tooltip, Popover, Row, Col, Modal} from 'antd';
+import {Card, Icon, Tooltip, Popover, Row, Col, Modal, Menu} from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import {faTrashAlt} from '@fortawesome/free-regular-svg-icons';
@@ -8,13 +8,19 @@ import sourceFormatOptions from '../../config/formats.config';
 import NewDataLoadDialog from './new-data-load-dialog/new-data-load-dialog';
 import { convertDateFromISO } from '../../util/conversionFunctions';
 import LoadDataSettingsDialog from './load-data-settings/load-data-settings-dialog';
+import { ContextMenu, ContextMenuTrigger } from "react-contextmenu";
+const { SubMenu } = Menu;
 
 interface Props {
     data: any;
+    flows: any;
     deleteLoadDataArtifact: any;
     createLoadDataArtifact: any;
     canReadOnly: any;
     canReadWrite: any;
+    addStepToFlow: any;
+    addStepToNewAndRun: any;
+    addStepToNew: any;
   }
 
 const LoadDataCard: React.FC<Props> = (props) => {
@@ -95,6 +101,30 @@ const LoadDataCard: React.FC<Props> = (props) => {
         <span style={{fontSize: '16px'}}>Are you sure you want to delete this?</span>
         </Modal>;
 
+    const contextualMenu = (
+        <ContextMenu id="addMenu">
+            <Menu>
+                <Menu.Item onClick={props.addStepToNew}>Add a step to a new flow</Menu.Item>
+                <Menu.Item onClick={props.addStepToNewAndRun}>Add and run a step in a new flow</Menu.Item>
+                <SubMenu title="Add a step to an existing flow">
+                    {props && props.flows.length > 0 ? props.flows.map((flow) => (
+                        <Menu.Item onClick={() => props.addStepToFlow(flow.name)}>{flow.name}</Menu.Item>
+                    )) : null }
+                </SubMenu>
+            </Menu>
+        </ContextMenu>
+    );
+
+    let contextTrigger;
+    const toggleMenu = e => {
+        if(contextTrigger) {
+            contextTrigger.handleContextClick(e);
+        }
+        e.preventDefault();
+    };
+
+    console.log('props.flows', props.flows);
+
     return (
         <div className={styles.loaddataContainer}>
             <Row gutter={16} type="flex" >
@@ -107,30 +137,35 @@ const LoadDataCard: React.FC<Props> = (props) => {
                         <p className={styles.addNewContent}>Add New</p>
                     </Card>
                 </Col> : ''}{props && props.data.length > 0 ? props.data.map((elem,index) => (
-                    <Col key={index}><Card
-                        actions={[
-                            <span>{elem.filesNeedReuploaded ? (
-                                <Popover
-                                    content={"Files must be reuploaded"}
-                                    trigger="click"
-                                    placement="bottom"
-                                ><i><FontAwesomeIcon icon={faExclamationCircle} className={styles.popover} size="lg" /></i></Popover>) : ''}</span>,
-                            <Tooltip title={'Settings'} placement="bottom"><Icon type="setting" key="setting" onClick={() => OpenLoadDataSettingsDialog(index)}/></Tooltip>,
-                            <Tooltip title={'Edit'} placement="bottom"><Icon type="edit" key="edit" onClick={() => OpenEditStepDialog(index)}/></Tooltip>,
-                            props.canReadWrite ? <Tooltip title={'Delete'} placement="bottom"><i><FontAwesomeIcon icon={faTrashAlt} className={styles.deleteIcon} size="lg" onClick={() => handleCardDelete(elem.name)}/></i></Tooltip> : <i><FontAwesomeIcon icon={faTrashAlt} onClick={(event) => event.preventDefault()} className={styles.disabledDeleteIcon} size="lg"/></i>,
-                        ]}
-                        className={styles.cardStyle}
-                        
-                        size="small"
-                    >
-                        <div className={styles.formatFileContainer}>
-                            <span style={sourceFormatStyle(elem.sourceFormat)}>{elem.sourceFormat.toUpperCase()}</span>
-                            <span className={styles.files}>Files</span>
-                        </div><br />
-                        <div className={styles.fileCount}>{elem.fileCount}</div>
-                        <span className={styles.stepNameStyle}>{getInitialChars(elem.name, 27, '...')}</span>
-                        <p className={styles.lastUpdatedStyle}>Last Updated: {convertDateFromISO(elem.lastUpdated)}</p>
-                    </Card></Col>
+                    <Col key={index}>
+                        <ContextMenuTrigger id="addMenu" ref={c => contextTrigger = c}>
+                            <Card
+                                onContextMenu={toggleMenu}
+                                actions={[
+                                    <span>{elem.filesNeedReuploaded ? (
+                                        <Popover
+                                            content={"Files must be reuploaded"}
+                                            trigger="click"
+                                            placement="bottom"
+                                        ><i><FontAwesomeIcon icon={faExclamationCircle} className={styles.popover} size="lg" /></i></Popover>) : ''}</span>,
+                                    <Tooltip title={'Settings'} placement="bottom"><Icon type="setting" key="setting" onClick={() => OpenLoadDataSettingsDialog(index)}/></Tooltip>,
+                                    <Tooltip title={'Edit'} placement="bottom"><Icon type="edit" key="edit" onClick={() => OpenEditStepDialog(index)}/></Tooltip>,
+                                    props.canReadWrite ? <Tooltip title={'Delete'} placement="bottom"><i><FontAwesomeIcon icon={faTrashAlt} className={styles.deleteIcon} size="lg" onClick={() => handleCardDelete(elem.name)}/></i></Tooltip> : <i><FontAwesomeIcon icon={faTrashAlt} onClick={(event) => event.preventDefault()} className={styles.disabledDeleteIcon} size="lg"/></i>,
+                                ]}
+                                className={styles.cardStyle}
+                                
+                                size="small"
+                            >
+                                <div className={styles.formatFileContainer}>
+                                    <span style={sourceFormatStyle(elem.sourceFormat)}>{elem.sourceFormat.toUpperCase()}</span>
+                                    <span className={styles.files}>Files</span>
+                                </div><br />
+                                <div className={styles.fileCount}>{elem.fileCount}</div>
+                                <span className={styles.stepNameStyle}>{getInitialChars(elem.name, 27, '...')}</span>
+                                <p className={styles.lastUpdatedStyle}>Last Updated: {convertDateFromISO(elem.lastUpdated)}</p>
+                            </Card>
+                        </ContextMenuTrigger>
+                    </Col>
                 )) : <span></span> }</Row>
                 <NewDataLoadDialog 
                 newLoad={newDataLoad} 
@@ -142,6 +177,7 @@ const LoadDataCard: React.FC<Props> = (props) => {
                 canReadOnly={props.canReadOnly}/>
                 {deleteConfirmation}
                 <LoadDataSettingsDialog openLoadDataSettings={openLoadDataSettings} setOpenLoadDataSettings={setOpenLoadDataSettings} stepData={stepData}/>
+                {contextualMenu}
         </div>
     );
 

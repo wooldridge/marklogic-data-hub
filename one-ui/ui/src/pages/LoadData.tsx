@@ -11,6 +11,7 @@ const LoadData: React.FC = () => {
   let [viewType, setViewType] = useState('table');
   const [isLoading, setIsLoading] = useState(false);
   const [loadDataArtifacts, setLoadDataArtifacts] = useState<any[]>([]);
+  const [flows, setFlows] = useState<any[]>([]);
   const { handleError } = useContext(AuthContext);
 
   //For role based privileges
@@ -25,12 +26,12 @@ const LoadData: React.FC = () => {
 
   useEffect(() => {
       getLoadDataArtifacts();
-      
+      getFlows();
   }, [isLoading]);
 
   //CREATE/POST load data Artifact
   const createLoadDataArtifact = async (loadDataObj) => {
-
+    console.log('loadDataObj', loadDataObj);
     try {
       setIsLoading(true);
 
@@ -83,6 +84,74 @@ const LoadData: React.FC = () => {
     }
   }
 
+  //GET all the flow artifacts
+  const getFlows = async () => {
+    try {
+        let response = await axios.get('/api/flows');
+        if (response.status === 200) {
+            setFlows(response.data);
+            console.log('GET flows successful', response);
+        } 
+    } catch (error) {
+        let message = error.response.data.message;
+        console.log('Error getting flows', message);
+    }
+}
+
+  //CREAT/POST load data step to new flow
+  const addStepToNew = async () => {
+    try {
+      setIsLoading(true);
+      //let response = await axios.post(`/api/artifacts/????/${flowName}`);
+      
+      //if (response.status === 200) {
+        console.log('POST addStepToNew');
+        setIsLoading(false);
+      //} 
+    } catch (error) {
+        let message = error.response.data.message;
+        console.log('Error while adding load data step to new flow.', message);
+        setIsLoading(false);
+        handleError(error);
+    }
+  }
+
+    //CREAT/POST load data step to new flow and run
+    const addStepToNewAndRun = async () => {
+      try {
+        setIsLoading(true);
+        //let response = await axios.post(`/api/artifacts/????/${flowName}`);
+        
+        //if (response.status === 200) {
+          console.log('POST addStepToNewAndRun');
+          setIsLoading(false);
+        //} 
+      } catch (error) {
+          let message = error.response.data.message;
+          console.log('Error while adding load data step to new flow and running.', message);
+          setIsLoading(false);
+          handleError(error);
+      }
+    }
+
+  //CREAT/POST load data step to flow
+  const addStepToFlow = async (flowName) => {
+    try {
+      setIsLoading(true);
+      //let response = await axios.post(`/api/artifacts/????/${flowName}`);
+      
+      //if (response.status === 200) {
+        console.log('POST addStepToFlow', flowName);
+        setIsLoading(false);
+      //} 
+    } catch (error) {
+        let message = error.response.data.message;
+        console.log('Error while adding load data step to flow.', message);
+        setIsLoading(false);
+        handleError(error);
+    }
+  }
+
   //Setting the value of switch view output
   let output; 
 
@@ -97,11 +166,17 @@ const LoadData: React.FC = () => {
   }
   else {
     output = <div className={styles.cardView}>
-      <LoadDataCard data={loadDataArtifacts} 
-      deleteLoadDataArtifact={deleteLoadDataArtifact} 
-      createLoadDataArtifact={createLoadDataArtifact} 
-      canReadWrite={canReadWrite}
-      canReadOnly={canReadOnly}/>
+      <LoadDataCard 
+        data={loadDataArtifacts} 
+        flows={flows}
+        deleteLoadDataArtifact={deleteLoadDataArtifact} 
+        createLoadDataArtifact={createLoadDataArtifact} 
+        canReadWrite={canReadWrite}
+        canReadOnly={canReadOnly}
+        addStepToFlow={addStepToFlow}
+        addStepToNewAndRun={addStepToNewAndRun}
+        addStepToNew={addStepToNew}
+      />
     </div>
   }
 

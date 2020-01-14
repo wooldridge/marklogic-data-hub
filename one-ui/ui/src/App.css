@@ -53,3 +53,27 @@ ul#global-icons.ant-menu .ant-menu-item i.tour,
 ul#global-icons.ant-menu .ant-dropdown-trigger .anticon.anticon-user {
     font-size: 24px;
 }
+
+/* Load Data contextual menu */
+.react-contextmenu li.ant-menu-item,
+.react-contextmenu .ant-menu-submenu-title {
+    text-align: left;
+}
+.react-contextmenu .ant-menu-item-selected {
+    background-color: transparent;
+    /* color: #A8A8A8; */
+}
+.react-contextmenu ul.ant-menu-sub li.ant-menu-item {
+    background-color: transparent;
+}
+.react-contextmenu .ant-menu-item-selected:hover {
+    background-color: transparent;
+    /* color: #7F86B5; */
+}
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: transparent;
+    /* color: #A8A8A8; */
+}
+.react-contextmenu ul.ant-menu-vertical {
+    border: 1px solid #e8e8e8;
+}
