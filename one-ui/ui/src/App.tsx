@@ -13,6 +13,7 @@ import { themes, themeMap } from './config/themes.config';
 import Install from './pages/Install';
 import LoadData from './pages/LoadData';
 import ProjectInfo from './pages/ProjectInfo';
+import Bench from './pages/Bench';
 
 interface Props extends RouteComponentProps<any> {}
 
@@ -91,6 +92,7 @@ const App: React.FC<Props> = ({history, location}) => {
           <Route path="/install" exact component={Install}/>
           <Route path="/load-data" exact component={LoadData}/>
           <Route path="/project-info" exact component={ProjectInfo}/>
+          <Route path="/bench" exact component={Bench}/>
           <Route path="/reset" exact component={Reset}/>
         </Switch>
       )}

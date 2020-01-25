@@ -10,6 +10,14 @@ const NewLoadTooltips = {
     'targetURIPreview': 'The URI of an example ingested document.' 
 }
 
+const NewFlowTooltips = { 
+
+    'name': 'The name of this flow.', 
+    'description': 'The description of this flow.', 
+
+}
+
 export {
-    NewLoadTooltips
+    NewLoadTooltips,
+    NewFlowTooltips
 }
