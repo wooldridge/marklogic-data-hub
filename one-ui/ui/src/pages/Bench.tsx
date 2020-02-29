@@ -110,20 +110,68 @@ const Bench: React.FC = () => {
         }
     }
 
-    const runStep = async (stepName) => {
+    // The polling function
+    function poll(fn, timeout, interval) {
+        var endTime = Number(new Date()) + (timeout || 2000);
+        interval = interval || 100;
+
+        var checkCondition = function(resolve, reject) { 
+            var ajax = fn();
+            // dive into the ajax promise
+            ajax.then( function(response){
+                // If the condition is met, we're done!
+                if(response.data.var == true) {
+                    resolve(response.data.var);
+                }
+                // If the condition isn't met but the timeout hasn't elapsed, go again
+                else if (Number(new Date()) < endTime) {
+                    setTimeout(checkCondition, interval, resolve, reject);
+                }
+                // Didn't match and too much time, reject!
+                else {
+                    reject(new Error('timed out for ' + fn + ': ' + arguments));
+                }
+            });
+        };
+
+        return new Promise(checkCondition);
+    }
+
+    const runStep = async (flowId, stepId) => {
         try {
             setIsLoading(true);
-            //let response = await axios.delete(`/api/flows/${name}`);
-            //if (response.status === 200) {
-                console.log('POST run step', stepName);
+            let body = [stepId];
+            let response = await axios.post('/api/flows/' + flowId + '/run', body);
+            if (response.status === 200) {
+                console.log('POST run step', response);
                 setIsLoading(false);
-            //} 
+                poll(function(flowId, stepId) {
+                    let jobId = response.data.jobId;
+                    return axios.get('/api/jobs/' + jobId);
+                }, 2000, 150).then(function() {
+                    // Polling done, now do something else!
+                    console.log('polling done!');
+                }).catch(function() {
+                    // Polling timed out, handle the error!
+                    console.log('polling timeout!');
+                });
+            } 
         } catch (error) {
             //let message = error.response.data.message;
             console.log('Error running step', error);
             setIsLoading(false);
         }
     }
+
+    // Usage: get something via ajax
+    // poll(function(flowId, stepId) {
+    //     let body = [stepId];
+    //     return axios.post('/api/flows' + flowId + '/run');
+    // }, 2000, 150).then(function() {
+    //     // Polling done, now do something else!
+    // }).catch(function() {
+    //     // Polling timed out, handle the error!
+    // });
     
     // DELETE /flows​/{flowId}​/steps​/{stepId}
     const deleteStep = async (flowId, stepId) => {
