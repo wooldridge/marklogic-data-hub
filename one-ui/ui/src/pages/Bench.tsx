@@ -153,26 +153,28 @@ const Bench: React.FC = () => {
     }
 
     function getErrors(response) {
-        let maxErrors = 10;
         let errors = [];
         if (response['stepResponses']) {
             let stepProp = Object.keys(response['stepResponses'])[0];
             errors = response['stepResponses'][stepProp]['stepOutput'];
-            errors = errors.slice(0, maxErrors);
         }
         return errors;
     }
 
-    function getSummary(response) {
+    function getErrorsSummary(response) {
+        let maxErrors = 10; // Returned from backend
         let stepProp = Object.keys(response['stepResponses'])[0];
         let jobResp = response['stepResponses'][stepProp];
         return (<span>Out of {jobResp['successfulBatches']+jobResp['failedBatches']} batches, 
             <span className={styles.errorVal}> {jobResp['successfulBatches']}</span> succeeded and 
             <span className={styles.errorVal}> {jobResp['failedBatches']}</span> failed. 
-            Error messages for the first 10 failures are displayed below.</span>);
+            {(jobResp['failedBatches'] > maxErrors) ? 
+                <span> Error messages for the first {maxErrors} failures are displayed below.</span> : 
+                <span> Error messages are displayed below.</span>}
+            </span>);
     }
 
-    const errorHeader = (index) => (
+    const getErrorsHeader = (index) => (
         <span className={styles.errorHeader}>
             Error {index+1}
         </span>
@@ -183,14 +185,30 @@ const Bench: React.FC = () => {
             title: <p>{stepType} "{stepName}" completed with errors</p>,
             content: (
                 <div id="error-list">
-                    <p className={styles.errorSummary}>{getSummary(response)}</p>
+                    <p className={styles.errorSummary}>{getErrorsSummary(response)}</p>
                     <Collapse defaultActiveKey={['0']} bordered={false}>
                         {errors.map((e, i) => { 
-                            return <Panel header={errorHeader(i)} key={i}>
+                            return <Panel header={getErrorsHeader(i)} key={i}>
                                 <span className={styles.errorLabel}>Message:</span> {e}
                             </Panel>
                         })}
                     </Collapse>
+                </div>
+            ),
+            okText: 'Close',
+            mask: false,
+            width: 800
+        });
+    }
+
+    function showFailed(stepName, stepType, errors) {
+        Modal.error({
+            title: <p>{stepType} "{stepName}" failed</p>,
+            content: (
+                <div id="error-list">
+                    {errors.map((e, i) => { 
+                        return <p><span className={styles.errorLabel}>Error message:</span> {e}</p>
+                    })}
                 </div>
             ),
             okText: 'Close',
@@ -246,11 +264,14 @@ const Bench: React.FC = () => {
                         if (response['jobStatus'] === Statuses.FINISHED) {
                             console.log('Flow complete: ' + flowId);
                             showSuccess(stepName, stepType);
-                        } else if (response['jobStatus'] === Statuses.FINISHED_WITH_ERRORS || 
-                                   response['jobStatus'] === Statuses.FAILED) {
-                            console.log('Flow ' + response['jobStatus'] + ': ' + flowId);
+                        } else if (response['jobStatus'] === Statuses.FINISHED_WITH_ERRORS) {
+                            console.log('Flow finished with errors: ' + flowId);
                             let errors = getErrors(response);
                             showErrors(stepName, stepType, errors, response);
+                        } else if (response['jobStatus'] === Statuses.FAILED) {
+                            console.log('Flow failed: ' + flowId);
+                            let errors = getErrors(response);
+                            showFailed(stepName, stepType, errors);
                         }
                         setIsLoading(false);
                     }).catch(function(error) {
