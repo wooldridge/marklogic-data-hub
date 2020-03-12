@@ -26,6 +26,9 @@ const Home: React.FC = () => {
         <Tooltip title="Click to reset host name and log out" placement="bottom">
             <Link to="/reset" className={styles.reset}><Icon type="rollback" /></Link>
         </Tooltip>
+        <Tooltip title="Multipane UI" placement="bottom">
+            <Link to="/multipane" className={styles.bench}><Icon type="windows" /></Link>
+        </Tooltip>
       </div>
     </div>
   );

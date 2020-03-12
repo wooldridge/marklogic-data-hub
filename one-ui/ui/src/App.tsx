@@ -12,6 +12,7 @@ import ProjectInfo from './pages/ProjectInfo';
 import LoadData from './pages/LoadData';
 import EntityTiles from './components/entities/entity-tiles';
 import Bench from './pages/Bench';
+import Multipane from './pages/Multipane';
 import Reset from './pages/Reset';
 import NoMatchRedirect from './pages/noMatchRedirect';
 
@@ -108,6 +109,9 @@ const App: React.FC<Props> = ({history, location}) => {
         </PrivateRoute>
         <PrivateRoute path="/bench" exact>
           <Bench/>
+        </PrivateRoute>
+        <PrivateRoute path="/multipane" exact>
+          <Multipane/>
         </PrivateRoute>
         <Route path="/reset" exact component={Reset}/>
         <Route component={NoMatchRedirect}/>
