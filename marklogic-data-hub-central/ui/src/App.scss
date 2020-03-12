@@ -145,3 +145,10 @@ div#error-list div.ant-collapse div.ant-collapse-item div.ant-collapse-content d
   background: #44499C;
   color: #fff;
 }
+/* react-mosaic multipane UI */
+div#multipane .mosaic.mosaic-blueprint-theme .mosaic-window div.mosaic-window-body {
+    overflow: scroll;
+}
+div#multipane .mosaic.mosaic-blueprint-theme .mosaic-window.selected .mosaic-window-toolbar {
+    border: solid 1px red !important;
+}
