@@ -1,0 +1,18 @@
+.multipaneContainer {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+.toolbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.toolbarIcon {
+    display: inline-block;
+    padding-right: 10px;
+    cursor: pointer;
+}

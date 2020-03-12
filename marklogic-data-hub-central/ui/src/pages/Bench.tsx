@@ -20,6 +20,7 @@ const Statuses = {
     'FINISHED_WITH_ERRORS': 'finished_with_errors'
 }
 
+// TODO Rename Bench component to Run
 const Bench: React.FC = () => {
    const { resetSessionTime } = useContext(UserContext)
 
@@ -349,7 +350,7 @@ const Bench: React.FC = () => {
 
   return (
     <div>
-        <div className={styles.content}>
+        <div className={styles.runContainer}>
             <Flows
                 flows={flows}
                 loads={loads}
