@@ -12,6 +12,7 @@ import Install from './pages/Install';
 import ProjectInfo from './pages/ProjectInfo';
 import LoadData from './pages/LoadData';
 import Bench from './pages/Bench';
+import SliderDemo from './pages/SliderDemo';
 import Reset from './pages/Reset';
 import NoMatchRedirect from './pages/noMatchRedirect';
 import View from './pages/View';
@@ -111,6 +112,9 @@ const App: React.FC<Props> = ({history, location}) => {
         </PrivateRoute>
         <PrivateRoute path="/bench" exact>
           <Bench/>
+        </PrivateRoute>
+        <PrivateRoute path="/slider-demo" exact>
+          <SliderDemo/>
         </PrivateRoute>
         <SearchProvider>
           <PrivateRoute path="/view" exact>

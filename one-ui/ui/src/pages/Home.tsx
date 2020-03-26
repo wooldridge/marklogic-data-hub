@@ -25,6 +25,7 @@ const Home: React.FC = () => {
         </Tooltip>
         <Link to="/view" className={styles.text}>View Entities</Link>
         <Link to="/browse" className={styles.text}>Browse Entities</Link>
+        <Link to="/slider-demo" className={styles.text}>Slider Demo</Link>
         <Tooltip title="Click to reset host name and log out" placement="bottom">
             <Link to="/reset" className={styles.reset}><Icon type="rollback" /></Link>
         </Tooltip>
