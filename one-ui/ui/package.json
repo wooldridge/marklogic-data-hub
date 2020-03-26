@@ -30,6 +30,7 @@
     "node-sass": "^4.13.1",
     "react": "^16.12.0",
     "react-app-rewired": "^2.1.5",
+    "react-compound-slider": "^2.5.0",
     "react-contextmenu": "^2.13.0",
     "react-dom": "^16.12.0",
     "react-drag-listview": "^0.1.6",
