@@ -17,7 +17,8 @@ export function Handle({
           }}
         >
           <div className="tooltip">
-            <span className="tooltiptext">Value: {value}</span>
+            <div className="tooltiptext"> id, value, percent: {id}, {value}, {percent}</div>
+            <div className="tooltiptext"> id, value, percent: {id}, {value}, {percent}</div>
           </div>
         </div>
         <div
@@ -48,6 +49,31 @@ export function Handle({
 
 const Example = (props) => {
 
+    const options = [
+      {
+        props: [        
+            {
+            prop: 'First',
+            type: 'Exact'
+          },
+          {
+            prop: 'Last',
+            type: 'Synonym'
+          }
+        ],
+        value: 10
+      },
+      {
+        props: [        
+            {
+            prop: 'DOB',
+            type: 'Exact'
+          }
+        ],
+        value: 40
+      },
+    ];
+
     return (
       <div style={{ height: 120, width: '100%' }}>
         {/* <ValueViewer values={values} update={update} /> */}
@@ -59,7 +85,8 @@ const Example = (props) => {
                 border: '1px solid steelblue',
               } /* inline styles for the outer div. Can also use className prop. */}
             domain={[0, 200]}
-            values={[10, 20]}
+            // values={[10, 20]}
+            values={options.map(opt => opt.value)}
             step={1}
         >
             <div style={{
