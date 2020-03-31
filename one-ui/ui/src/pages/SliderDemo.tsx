@@ -6,7 +6,7 @@ const SliderDemo: React.FC = () => {
   console.log('I am in SliderDemo WTF?');
 
   return (
-    <div>
+    <div style={{ paddingTop: '100px' }}>
       <Example/>
     </div>
   )
