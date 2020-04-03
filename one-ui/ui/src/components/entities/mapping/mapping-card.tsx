@@ -1,6 +1,6 @@
 import React, {CSSProperties, useState, useEffect, useContext} from 'react';
 import styles from './mapping-card.module.scss';
-import {Card, Icon, Tooltip, Row, Col, Modal} from 'antd';
+import {Card, Icon, Tooltip, Row, Col, Modal, Select} from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faTrashAlt} from '@fortawesome/free-regular-svg-icons';
 import sourceFormatOptions from '../../../config/formats.config';
@@ -14,8 +14,11 @@ import {RolesContext} from "../../../util/roles";
 import { getSettingsArtifact } from '../../../util/manageArtifacts-service';
 import axios from 'axios';
 
+const { Option } = Select;
+
 interface Props {
     data: any;
+    flows: any;
     entityTypeTitle: any;
     getMappingArtifactByMapName: any;
     deleteMappingArtifact: any;
@@ -23,7 +26,10 @@ interface Props {
     updateMappingArtifact: any;
     canReadOnly: any;
     canReadWrite: any;
+    canWriteFlows: any;
     entityModel: any;
+    addStepToFlow: any;
+    addStepToNew: any;
   }
 
 const MappingCard: React.FC<Props> = (props) => {
@@ -34,12 +40,15 @@ const MappingCard: React.FC<Props> = (props) => {
     const [mapData, setMapData] = useState({});
     const [mapName, setMapName] = useState('');
     const [dialogVisible, setDialogVisible] = useState(false);
+    const [addDialogVisible, setAddDialogVisible] = useState(false);
     const [loadArtifactName, setLoadArtifactName] = useState('');
     const [mappingVisible, setMappingVisible] = useState(false);
     const [sourceData, setSourceData] = useState<any[]>([]);
     const [sourceURI,setSourceURI] = useState('');
     const [sourceDatabaseName, setSourceDatabaseName] = useState('data-hub-STAGING')
     const [docNotFound, setDocNotFound] = useState(false);
+    const [flowName, setFlowName] = useState('');
+    const [showLinks, setShowLinks] = useState('');
 
     //For Entity table
     const [entityTypeProperties, setEntityTypeProperties] = useState<any[]>([]);
@@ -131,7 +140,37 @@ const MappingCard: React.FC<Props> = (props) => {
 
       const onCancel = () => {
         setDialogVisible(false);
+        setAddDialogVisible(false);
       }
+
+      function handleMouseOver(e, name) {
+        console.log('handleMouseOver', e.target);
+        // Handle all possible events from mouseover of card body
+        if (typeof e.target.className === 'string' &&
+            (e.target.className === 'ant-card-body' ||
+             e.target.className.startsWith('mapping-card_cardContainer') ||
+             e.target.className.startsWith('mapping-card_formatFileContainer') ||
+             e.target.className.startsWith('mapping-card_sourceQuery') ||
+             e.target.className.startsWith('mapping-card_lastUpdatedStyle'))
+        ) {
+            setShowLinks(name);
+        }
+    }
+
+    function handleSelect(obj) {
+        handleStepAdd(obj.loadName, obj.flowName);
+    }
+
+    const handleStepAdd = (loadDataName, flowName) => {
+        setAddDialogVisible(true);
+        setLoadArtifactName(loadDataName);
+        setFlowName(flowName);
+    }
+
+    const onAddOk = (lName, fName) => {
+        props.addStepToFlow(lName, fName)
+        setAddDialogVisible(false);
+    }
 
     const deleteConfirmation = <Modal
         visible={dialogVisible}
@@ -303,6 +342,22 @@ const MappingCard: React.FC<Props> = (props) => {
         cursor: 'pointer',width: '330px',margin:'-12px -12px', padding: '5px 5px'
     }
 
+    const addConfirmation = (
+        <Modal
+            visible={addDialogVisible}
+            okText='Yes'
+            cancelText='No'
+            onOk={() => onAddOk(loadArtifactName, flowName)}
+            onCancel={() => onCancel()}
+            width={350}
+            maskClosable={false}
+        >
+            <div style={{fontSize: '16px', padding: '10px'}}>
+                Are you sure you want to add "{loadArtifactName}" to flow "{flowName}"?
+            </div>
+        </Modal>
+    );
+
     return (
         <div className={styles.loaddataContainer}>
             <Row gutter={16} type="flex" >
@@ -315,27 +370,52 @@ const MappingCard: React.FC<Props> = (props) => {
                         <p className={styles.addNewContent}>Add New</p>
                     </Card>
                 </Col> : ''}{props && props.data.length > 0 ? props.data.map((elem,index) => (
-                    <Col key={index}><Card
-                        actions={[
-                            <span></span>,
-                            <Tooltip title={'Settings'} placement="bottom"><Icon type="setting" key="setting" onClick={() => OpenMappingSettingsDialog(index)}/></Tooltip>,
-                            <Tooltip title={'Edit'} placement="bottom"><Icon type="edit" key="edit" onClick={() => OpenEditStepDialog(index)}/></Tooltip>,
-                            props.canReadWrite ? <Tooltip title={'Delete'} placement="bottom"><i><FontAwesomeIcon icon={faTrashAlt} className={styles.deleteIcon} size="lg" onClick={() => handleCardDelete(elem.name)}/></i></Tooltip> : <i><FontAwesomeIcon icon={faTrashAlt} onClick={(event) => event.preventDefault()} className={styles.disabledDeleteIcon} size="lg"/></i>,
-                        ]}
-                        className={styles.cardStyle}
-                        size="small"
-                    >
-                        <div style={cardContainer} onClick={() => openSourceToEntityMapping(elem.name,index)}>
-                        <div className={styles.formatFileContainer}>
-                            <span className={styles.mapNameStyle}>{getInitialChars(elem.name, 27, '...')}</span>
-                            {/* <span style={sourceFormatStyle(elem.sourceFormat)}>{elem.sourceFormat.toUpperCase()}</span> */}
+                    <Col key={index}>
+                        <div
+                            onMouseOver={(e) => handleMouseOver(e, elem.name)}
+                            onMouseLeave={(e) => setShowLinks('')}
+                        >
+                            <Card
+                                actions={[
+                                    <span></span>,
+                                    <Tooltip title={'Settings'} placement="bottom"><Icon type="setting" key="setting" onClick={() => OpenMappingSettingsDialog(index)}/></Tooltip>,
+                                    <Tooltip title={'Edit'} placement="bottom"><Icon type="edit" key="edit" onClick={() => OpenEditStepDialog(index)}/></Tooltip>,
+                                    props.canReadWrite ? <Tooltip title={'Delete'} placement="bottom"><i><FontAwesomeIcon icon={faTrashAlt} className={styles.deleteIcon} size="lg" onClick={() => handleCardDelete(elem.name)}/></i></Tooltip> : <i><FontAwesomeIcon icon={faTrashAlt} onClick={(event) => event.preventDefault()} className={styles.disabledDeleteIcon} size="lg"/></i>,
+                                ]}
+                                className={styles.cardStyle}
+                                size="small"
+                            >
+                                <div className={styles.cardContainer} style={cardContainer} onClick={() => openSourceToEntityMapping(elem.name,index)}>
+                                <div className={styles.formatFileContainer}>
+                                    <span className={styles.mapNameStyle}>{getInitialChars(elem.name, 27, '...')}</span>
+                                    {/* <span style={sourceFormatStyle(elem.sourceFormat)}>{elem.sourceFormat.toUpperCase()}</span> */}
 
-                        </div><br />
-                        {elem.selectedSource === 'collection' ? <div className={styles.sourceQuery}>Collection: {extractCollectionFromSrcQuery(elem.sourceQuery)}</div> : <div className={styles.sourceQuery}>Source Query: {getInitialChars(elem.sourceQuery,32,'...')}</div>}
-                        <br /><br />
-                        <p className={styles.lastUpdatedStyle}>Last Updated: {convertDateFromISO(elem.lastUpdated)}</p>
+                                </div><br />
+                                {elem.selectedSource === 'collection' ? <div className={styles.sourceQuery}>Collection: {extractCollectionFromSrcQuery(elem.sourceQuery)}</div> : <div className={styles.sourceQuery}>Source Query: {getInitialChars(elem.sourceQuery,32,'...')}</div>}
+                                <br /><br />
+                                <p className={styles.lastUpdatedStyle}>Last Updated: {convertDateFromISO(elem.lastUpdated)}</p>
+                                </div>
+                                {props.canWriteFlows ? <div className={styles.cardLinks} style={{display: showLinks === elem.name ? 'block' : 'none'}}>
+                                    <div className={styles.cardLink}>Add step to a new flow</div>
+                                    <div className={styles.cardNonLink}>
+                                        Add step to an existing flow
+                                        <div className={styles.cardLinkSelect}>
+                                            <Select
+                                                style={{ width: '100%' }}
+                                                onChange={(flowName) => handleSelect({flowName: flowName, loadName: elem.name})}
+                                                placeholder="Select Flow"
+                                                defaultActiveFirstOption={false}
+                                            >
+                                                { props.flows && props.flows.length > 0 ? props.flows.map((f,i) => (
+                                                    <Option value={f.name}>{f.name}</Option>
+                                                )) : null}
+                                            </Select>
+                                        </div>
+                                    </div>
+                                </div> : null}
+                            </Card>
                         </div>
-                    </Card></Col>
+                    </Col>
                 )) : <span></span> }</Row>
                 <CreateEditMappingDialog
                 newMap={newMap}
