@@ -4,8 +4,10 @@ import './tooltip.css';
 
 export function Handle({
     handle: { id, value, percent },
+    options: options,
     getHandleProps
   }) {
+    console.log('Handle', options);
     return (
       <>
         <div
@@ -105,6 +107,7 @@ const Example = (props) => {
                     <Handle
                     key={handle.id}
                     handle={handle}
+                    options={options}
                     getHandleProps={getHandleProps}
                     />
                 ))}
