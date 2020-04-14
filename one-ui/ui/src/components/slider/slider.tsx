@@ -7,7 +7,7 @@ export function Handle({
     options: options,
     getHandleProps
   }) {
-    console.log('Handle', options);
+    console.log('Handle options', options);
     return (
       <>
         <div
@@ -19,8 +19,11 @@ export function Handle({
           }}
         >
           <div className="tooltip">
-            <div className="tooltiptext"> id, value, percent: {id}, {value}, {percent}</div>
-            <div className="tooltiptext"> id, value, percent: {id}, {value}, {percent}</div>
+                {options.map(opt => (
+                    <div className="tooltiptext"> {opt.prop} - {opt.type} </div>
+                ))}
+            {/* <div className="tooltiptext"> id, value, percent: {id}, {value}, {percent}</div>
+            <div className="tooltiptext"> id, value, percent: {id}, {value}, {percent}</div> */}
           </div>
         </div>
         <div
@@ -103,11 +106,11 @@ const Example = (props) => {
             <Handles>
             {({ handles, getHandleProps }) => (
                 <div className="slider-handles">
-                {handles.map(handle => (
+                {handles.map((handle, index) => (
                     <Handle
                     key={handle.id}
                     handle={handle}
-                    options={options}
+                    options={options[index].props}
                     getHandleProps={getHandleProps}
                     />
                 ))}
