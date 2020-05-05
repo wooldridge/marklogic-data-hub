@@ -124,7 +124,18 @@ const Multipane: React.FC  = (props) => {
         console.log('onClickToolbar', event);
     }
 
-    const toolbar = function (props, draggable) {
+    const getToolbar = function (items) {
+        let menu = items.map((itm, i) => {
+            return (
+                <div className={styles.item} role={'item-' + itm} style={{color: VIEW_MAP[itm]['color']}} onClick={() => onSelect(itm)}>
+                    <FontAwesomeIcon icon={VIEW_MAP[itm]['icon']} size="lg" />
+                </div>
+            )
+        });
+        return menu;
+    };
+
+    const getPaneHeader = function (props, draggable) {
         let viewId: any = null;
         Object.keys(VIEW_MAP).forEach(key => {
             if (VIEW_MAP[key]['title'] === props.title) {
@@ -132,7 +143,7 @@ const Multipane: React.FC  = (props) => {
             }
         });
         return (
-            <div id={viewId} style={{backgroundColor: VIEW_MAP[viewId]['bgColor'], borderBottomColor: VIEW_MAP[viewId]['border']}} className={styles.toolbar} onClick={onClickToolbar}>
+            <div className={styles.paneHeader} style={{backgroundColor: VIEW_MAP[viewId]['bgColor'], borderBottomColor: VIEW_MAP[viewId]['border']}} onClick={onClickToolbar}>
                 <div className={styles.title}>
                     <FontAwesomeIcon style={{color: VIEW_MAP[viewId]['color']}} icon={VIEW_MAP[viewId]['icon']} size="lg" /> 
                     <span className={styles.text}>{props.title}</span>
@@ -152,48 +163,37 @@ const Multipane: React.FC  = (props) => {
         )
     };
 
-    const getMenu = function (items) {
-        let menu = items.map((itm, i) => {
-            return (
-                <div className={styles.item} style={{color: VIEW_MAP[itm]['color']}} id={itm} role={itm} onClick={() => onSelect(itm)}>
-                    <FontAwesomeIcon icon={VIEW_MAP[itm]['icon']} size="lg" />
-                </div>
-            )
-        });
-        return menu;
-    };
-
     const getContainerStyle = (id: ViewId) => {
-        console.log('getContainerStyle', props);
         return 'mosaic-container mosaic-container-' + id;
     };
 
     return (
-        <div id="multipane" className={styles.multipaneContainer}>
-            <div id={styles.menu}>
-                {getMenu(Object.keys(VIEW_MAP))}
+        <>
+            <div id={styles.toolbar}>
+                {getToolbar(Object.keys(VIEW_MAP))}
             </div>
-            <Mosaic<ViewId>
-                renderTile={(id, path) => { 
-                    return (
-                    <MosaicWindow<ViewId> 
-                        //className={selected === id ? 'selected' : ''}
-                        path={path} 
-                        //createNode={() => 'new'} 
-                        title={VIEW_MAP[id]['title']}
-                        // UNCOMMENT THE BELOW TO SHOW CUSTOM TOOL ICONS
-                        renderToolbar={toolbar}
-                    >
-                        <h1>{VIEW_MAP[id]['element']}</h1>
-                    </MosaicWindow>
-                    )
-                }}
-                className={getContainerStyle(selection)}
-                value={currentNode}
-                onChange={onChange}
-                onRelease={onRelease}
-            />
-        </div>
+            <div id="multipane" className={styles.multipaneContainer}>
+                <Mosaic<ViewId>
+                    renderTile={(id, path) => { 
+                        return (
+                        <MosaicWindow<ViewId> 
+                            //className={selected === id ? 'selected' : ''}
+                            path={path} 
+                            //createNode={() => 'new'} 
+                            title={VIEW_MAP[id]['title']}
+                            renderToolbar={getPaneHeader}
+                        >
+                            <h1>{VIEW_MAP[id]['element']}</h1>
+                        </MosaicWindow>
+                        )
+                    }}
+                    className={getContainerStyle(selection)}
+                    value={currentNode}
+                    onChange={onChange}
+                    onRelease={onRelease}
+                />
+            </div>
+        </>
     );
 }
 

@@ -2,25 +2,37 @@
     height: 100%;
     width: 100%;
     margin: 0;
+    padding: 0 80px 0 10px;
 }
 
-#menu {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    width: 100%;
-    padding: 10px;
-    margin-left: 62px;
+#toolbar {
+    position: absolute;
+    background-color: #F1F1F1;
+    right: 0;
+    top: 64px;
+    width: 70px;
+    padding: 40px 10px;
+    height: 100%;
     .item {
+        position: relative;
+        left: 7px;
         display: inline-block;
-        font-size: 16px;
-        padding-right: 20px;
+        font-size: 18px;
+        margin-right: 20px;
+        margin-bottom: 40px;
+        padding: 6px;
         flex-basis:  content;
         cursor: pointer;
+        background-color: #FFF;
+        border: 1px solid #7F86B5;
+        border-radius: 4px;
+    }
+    .item[role='item-curate'] {
+        margin-bottom: 80px;
     }
 }
 
-.toolbar {
+.paneHeader {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
