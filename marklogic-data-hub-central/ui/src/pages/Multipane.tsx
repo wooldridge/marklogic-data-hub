@@ -4,10 +4,12 @@ import styles from './Multipane.module.scss';
 import 'react-mosaic-component/react-mosaic-component.css';
 import '@blueprintjs/core/lib/css/blueprint.css';
 import '@blueprintjs/icons/lib/css/blueprint-icons.css';
+import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 import { Icon } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faLongArrowAltRight, faCube, faCubes, faObjectUngroup, faProjectDiagram,
-        faWindowMaximize, faWindowMinimize, faExternalLinkAlt} from "@fortawesome/free-solid-svg-icons";
+        faExpandArrowsAlt, faCompressArrowsAlt, faExternalLinkAlt} from "@fortawesome/free-solid-svg-icons";
+import './Multipane.css';
 
 import {
     SplitCellsOutlined,
@@ -27,6 +29,8 @@ interface ViewItem {
     title: string;
     icon: any;
     color: string;
+    bgColor: string;
+    border: string;
     element: JSX.Element;
 }
 
@@ -35,30 +39,40 @@ const VIEW_MAP: Record<ViewId, ViewItem>  = {
         title: 'Load',
         icon: faLongArrowAltRight, 
         color: '#520339',
+        bgColor: '#EEE6EB',
+        border: '#520339',
         element: <LoadData/>,
     },
     model: { 
         title: 'Model',
         icon: faCube, 
         color: '#22075E',
+        bgColor: '#E6EBF4',
+        border: '#003A8C',
         element: <Modeling/>,
     },
     curate: { 
         title: 'Curate',
         icon: faObjectUngroup, 
         color: '#FFC53D',
+        bgColor: '#F8F2E8',
+        border: '#BC811D',
         element: <EntityTypes/>,
     },
     run: { 
         title: 'Run',
         icon: faCubes, 
         color: '#D61178',
+        bgColor: '#E6E7F2',
+        border: '#061178',
         element: <Bench/>,
     },
     explore: { 
         title: 'Explore',
         icon: faProjectDiagram, 
         color: '#00474F',
+        bgColor: '#E6EDED',
+        border: '#00474F',
         element: <Browse/>,
     },
 };
@@ -85,9 +99,11 @@ let initialNode = 'load';
 
 const Multipane: React.FC  = (props) => {
     //const { mosaicId } = useContext(MosaicContext);
+    const [selection, setSelection] = useState<ViewId>('load');
     const [currentNode, setCurrentNode] = useState<any>(initialNode);
 
     const onSelect = (itm) => {
+        setSelection(itm);
         update(itm);
     }
 
@@ -116,9 +132,9 @@ const Multipane: React.FC  = (props) => {
             }
         });
         return (
-            <div id={viewId} style={{backgroundColor: VIEW_MAP[viewId]['color']}} className={styles.toolbar} onClick={onClickToolbar}>
+            <div id={viewId} style={{backgroundColor: VIEW_MAP[viewId]['bgColor'], borderBottomColor: VIEW_MAP[viewId]['border']}} className={styles.toolbar} onClick={onClickToolbar}>
                 <div className={styles.title}>
-                    <FontAwesomeIcon icon={VIEW_MAP[viewId]['icon']} size="lg" /> 
+                    <FontAwesomeIcon style={{color: VIEW_MAP[viewId]['color']}} icon={VIEW_MAP[viewId]['icon']} size="lg" /> 
                     <span className={styles.text}>{props.title}</span>
                 </div>
                 <div className={styles.icons} onClick={(event) => onClickToolbar}>
@@ -126,10 +142,10 @@ const Multipane: React.FC  = (props) => {
                         <FontAwesomeIcon icon={faExternalLinkAlt} size="lg" />
                     </div>
                     <div className={styles.icon}>
-                        <FontAwesomeIcon icon={faWindowMinimize} size="lg" />
+                        <FontAwesomeIcon icon={faExpandArrowsAlt} size="lg" />
                     </div>
                     <div className={styles.icon}>
-                        <FontAwesomeIcon icon={faWindowMaximize} size="lg" />
+                        <FontAwesomeIcon icon={faCompressArrowsAlt} size="lg" />
                     </div>
                 </div>
             </div>
@@ -145,6 +161,11 @@ const Multipane: React.FC  = (props) => {
             )
         });
         return menu;
+    };
+
+    const getContainerStyle = (id: ViewId) => {
+        console.log('getContainerStyle', props);
+        return 'mosaic-container mosaic-container-' + id;
     };
 
     return (
@@ -167,6 +188,7 @@ const Multipane: React.FC  = (props) => {
                     </MosaicWindow>
                     )
                 }}
+                className={getContainerStyle(selection)}
                 value={currentNode}
                 onChange={onChange}
                 onRelease={onRelease}

@@ -1,0 +1,26 @@
+div.mosaic-container div.mosaic-tile {
+    border: solid 1px !important;
+}
+div.mosaic-container-load div.mosaic-tile {
+    border-color: #520339 !important;
+}
+div.mosaic-container-model div.mosaic-tile {
+    border-color: #003A8C !important;
+}
+div.mosaic-container-curate div.mosaic-tile {
+    border-color: #BC811D !important;
+}
+div.mosaic-container-run div.mosaic-tile {
+    border-color: #061178 !important;
+}
+div.mosaic-container-explore div.mosaic-tile {
+    border-color: #00474F !important;
+}
+
+div.container-load div.mosaic-window-body {
+    overflow: scroll;
+}
+
+footer.ant-layout-footer {
+    margin-top: 35px;
+}
