@@ -5,7 +5,7 @@ import 'react-mosaic-component/react-mosaic-component.css';
 import '@blueprintjs/core/lib/css/blueprint.css';
 import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 import '@blueprintjs/icons/lib/css/blueprint-icons.css';
-import { Icon } from 'antd';
+import { ArrowsAltOutlined, ShrinkOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faLongArrowAltRight, faCube, faCubes, faObjectUngroup, faProjectDiagram,
         faExpandArrowsAlt, faCompressArrowsAlt, faExternalLinkAlt} from "@fortawesome/free-solid-svg-icons";
@@ -152,11 +152,11 @@ const Multipane: React.FC  = (props) => {
                     <div className={styles.icon}>
                         <FontAwesomeIcon icon={faExternalLinkAlt} size="lg" />
                     </div>
-                    <div className={styles.icon}>
-                        <FontAwesomeIcon icon={faExpandArrowsAlt} size="lg" />
+                    <div className={styles.icon2}>
+                        <ArrowsAltOutlined style={{ fontSize: '24px' }} />
                     </div>
-                    <div className={styles.icon}>
-                        <FontAwesomeIcon icon={faCompressArrowsAlt} size="lg" />
+                    <div className={styles.icon2}>
+                        <ShrinkOutlined style={{ fontSize: '24px' }} />
                     </div>
                 </div>
             </div>
