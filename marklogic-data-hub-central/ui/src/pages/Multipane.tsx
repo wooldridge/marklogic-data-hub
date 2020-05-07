@@ -124,7 +124,7 @@ const Multipane: React.FC  = (props) => {
                     </i>
                     <label className={styles.text}>{props.title}</label>
                 </div>
-                <div className={styles.icons}>
+                <div className={styles.actions}>
                     <Tooltip title={'Open in New Tab'} placement="bottom">
                         <i className={styles.fa} aria-label={'new-tab'} onClick={onClickNewTab}>
                             <FontAwesomeIcon icon={faExternalLinkAlt} />
@@ -150,8 +150,8 @@ const Multipane: React.FC  = (props) => {
             <div id={styles.toolbar}>
                 {Object.keys(VIEW_MAP).map((tool, i) => {
                     return (
-                        <Tooltip title={VIEW_MAP[tool]['title']} placement="left">
-                            <i className={styles.tool} aria-label={'tool-' + tool} key={i} style={{color: VIEW_MAP[tool]['color']}} onClick={() => onSelect(tool)}>
+                        <Tooltip title={VIEW_MAP[tool]['title']} placement="left" key={i}>
+                            <i className={styles.tool} aria-label={'tool-' + tool} style={{color: VIEW_MAP[tool]['color']}} onClick={() => onSelect(tool)}>
                                 <FontAwesomeIcon icon={VIEW_MAP[tool]['icon']} size="lg" />
                             </i>
                         </Tooltip>

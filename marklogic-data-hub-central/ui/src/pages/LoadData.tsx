@@ -185,11 +185,11 @@ const LoadData: React.FC = () => {
   return (
     <div>
       {canReadWrite || canReadOnly ?
-      <div className={styles.content}>
-        <div className={styles.LoadDataStyles}>
-          <div className={styles.switchview}><SwitchView handleSelection={handleViewTypeSelection}/></div>
-          {output}
+      <div className={styles.loadDataContainer}>
+        <div className={styles.switchViewContainer}>
+          <SwitchView handleSelection={handleViewTypeSelection}/>
         </div>
+        {output}
       </div> : ''
     }
     </div>

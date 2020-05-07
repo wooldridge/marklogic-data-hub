@@ -42,29 +42,29 @@
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
-    padding: 12px;
+    padding: 2px 12px;
     border-bottom: solid 1px;
     .title {
+        flex: 1;
         font-size: 18px;
-        height: 16px;
         i {
             position: relative;
-            top: 6px;
             font-size: 24px;
         }
         label.text {
             display: inline-block;
             position: relative;
-            top: 4px;
+            top: -3px;
             color: #333;
             padding-left: 10px;
         }
     }
-    .icons {
+    .actions {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        flex: initial;
         color: #333;
+        margin: 0;
         padding: 0;
         i {
             position: relative;
@@ -72,11 +72,10 @@
             cursor: pointer;
         }
         i.fa {
-            top: 9px;
+            top: 4px;
             font-size: 20px;
         }
         i.ant {
-            top: 6px;
             font-size: 24px;
         }
     }

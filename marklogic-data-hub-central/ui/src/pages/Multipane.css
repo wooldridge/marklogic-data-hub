@@ -4,8 +4,12 @@ div.mosaic-container div.mosaic-tile {
     margin: 0;
 }
 
-div.mosaic-container div.mosaic-window-body {
-    overflow: scroll;
+div.mosaic-container-explore div.mosaic-tile {
+    border-color: #00474F;
+}
+
+div.mosaic-container div.mosaic-window-toolbar {
+    height: 40px;
 }
 
 div.mosaic-container-load div.mosaic-tile {
