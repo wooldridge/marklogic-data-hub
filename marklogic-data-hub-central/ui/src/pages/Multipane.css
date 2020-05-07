@@ -1,5 +1,5 @@
 div.mosaic-container div.mosaic-tile {
-    border: solid 1px !important;
+    border: solid 1px;
     padding: 0;
     margin: 0;
 }
@@ -9,19 +9,19 @@ div.mosaic-container div.mosaic-window-body {
 }
 
 div.mosaic-container-load div.mosaic-tile {
-    border-color: #520339 !important;
+    border-color: #520339;
 }
 div.mosaic-container-model div.mosaic-tile {
-    border-color: #003A8C !important;
+    border-color: #003A8C;
 }
 div.mosaic-container-curate div.mosaic-tile {
-    border-color: #BC811D !important;
+    border-color: #BC811D;
 }
 div.mosaic-container-run div.mosaic-tile {
-    border-color: #061178 !important;
+    border-color: #061178;
 }
 div.mosaic-container-explore div.mosaic-tile {
-    border-color: #00474F !important;
+    border-color: #00474F;
 }
 
 footer.ant-layout-footer {

@@ -7,21 +7,14 @@ import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 import { ArrowsAltOutlined, ShrinkOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faLongArrowAltRight, faCube, faCubes, faObjectUngroup, faProjectDiagram,
-        faExpandArrowsAlt, faCompressArrowsAlt, faExternalLinkAlt} from "@fortawesome/free-solid-svg-icons";
+import {faLongArrowAltRight, faCube, faCubes, faObjectUngroup, faProjectDiagram, faExternalLinkAlt} from "@fortawesome/free-solid-svg-icons";
 import './Multipane.css';
-
-import {
-    SplitCellsOutlined,
-} from '@ant-design/icons';
 
 import LoadData from './LoadData';
 import Modeling from './Modeling';
 import EntityTypes from './EntityTypes';
 import Bench from './Bench';
 import Browse from './Browse';
-
-//import { MosaicWindowContext, MosaicContext } from 'react-mosaic-component/src';
 
 export type ViewId = 'load' | 'model' | 'curate' | 'run' | 'explore';
 
@@ -77,28 +70,9 @@ const VIEW_MAP: Record<ViewId, ViewItem>  = {
     },
 };
 
-const onClickSplit = (event) => {
-    console.log('Split clicked!', event);
-}
-
-const onClickClose = (event) => {
-    console.log('Close clicked!', event);
-}
-
-// let initialNode = {
-//     direction: 'column',
-//     first: {
-//         direction: 'row',
-//         first: 'LoadData',
-//         second: 'EntityTypes',
-//     },
-//     second: 'Bench',
-// }
-
-let initialNode = 'load';
+const initialNode = 'load';
 
 const Multipane: React.FC  = (props) => {
-    //const { mosaicId } = useContext(MosaicContext);
     const [selection, setSelection] = useState<ViewId>('load');
     const [currentNode, setCurrentNode] = useState<any>(initialNode);
 
@@ -124,70 +98,77 @@ const Multipane: React.FC  = (props) => {
         console.log('onClickToolbar', event);
     }
 
-    const getToolbar = function (items) {
-        let menu = items.map((itm, i) => {
-            return (
-                <div className={styles.item} role={'item-' + itm} style={{color: VIEW_MAP[itm]['color']}} onClick={() => onSelect(itm)}>
-                    <FontAwesomeIcon icon={VIEW_MAP[itm]['icon']} size="lg" />
-                </div>
-            )
-        });
-        return menu;
-    };
+    const onClickNewTab = (event) => {
+        console.log('onClickNewTab', event);
+    }
 
-    const getPaneHeader = function (props, draggable) {
-        let viewId: any = null;
+    const onClickMaximize = (event) => {
+        console.log('onClickMaximize', event);
+    }
+
+    const onClickMinimize = (event) => {
+        console.log('onClickMinimize', event);
+    }
+
+    const renderHeader = function (props) {
+        let viewId: string = '';
+        // Title is passed in, get the viewId based on it
         Object.keys(VIEW_MAP).forEach(key => {
             if (VIEW_MAP[key]['title'] === props.title) {
                 viewId = key;
             }
         });
         return (
-            <div className={styles.paneHeader} style={{backgroundColor: VIEW_MAP[viewId]['bgColor'], borderBottomColor: VIEW_MAP[viewId]['border']}} onClick={onClickToolbar}>
+            <div 
+                className={styles.paneHeader} 
+                style={{backgroundColor: VIEW_MAP[viewId]['bgColor'], borderBottomColor: VIEW_MAP[viewId]['border']}}
+            >
                 <div className={styles.title}>
-                    <FontAwesomeIcon style={{color: VIEW_MAP[viewId]['color']}} icon={VIEW_MAP[viewId]['icon']} size="lg" /> 
-                    <span className={styles.text}>{props.title}</span>
+                    <i aria-label={'icon-' + viewId}>
+                        <FontAwesomeIcon style={{color: VIEW_MAP[viewId]['color']}} icon={VIEW_MAP[viewId]['icon']} /> 
+                    </i>
+                    <label className={styles.text}>{props.title}</label>
                 </div>
-                <div className={styles.icons} onClick={(event) => onClickToolbar}>
-                    <div className={styles.icon}>
-                        <FontAwesomeIcon icon={faExternalLinkAlt} size="lg" />
-                    </div>
-                    <div className={styles.icon2}>
-                        <ArrowsAltOutlined style={{ fontSize: '24px' }} />
-                    </div>
-                    <div className={styles.icon2}>
-                        <ShrinkOutlined style={{ fontSize: '24px' }} />
-                    </div>
+                <div className={styles.icons}>
+                    <i className={styles.fa} aria-label={'new-tab'} onClick={(event) => onClickNewTab}>
+                        <FontAwesomeIcon icon={faExternalLinkAlt} />
+                    </i>
+                    <i className={styles.ant} aria-label={'maximize'} onClick={(event) => onClickMaximize}>
+                        <ArrowsAltOutlined />
+                    </i>
+                    <i className={styles.ant} aria-label={'minimize'} onClick={(event) => onClickMinimize}>
+                        <ShrinkOutlined />
+                    </i>
                 </div>
             </div>
         )
     };
 
-    const getContainerStyle = (id: ViewId) => {
-        return 'mosaic-container mosaic-container-' + id;
-    };
-
     return (
         <>
             <div id={styles.toolbar}>
-                {getToolbar(Object.keys(VIEW_MAP))}
+                {Object.keys(VIEW_MAP).map((tool, i) => {
+                    return (
+                        <div className={styles.tool} aria-label={'tool-' + tool} style={{color: VIEW_MAP[tool]['color']}} onClick={() => onSelect(tool)}>
+                            <FontAwesomeIcon icon={VIEW_MAP[tool]['icon']} size="lg" />
+                        </div>
+                    )
+                })}
             </div>
             <div id="multipane" className={styles.multipaneContainer}>
                 <Mosaic<ViewId>
                     renderTile={(id, path) => { 
                         return (
                         <MosaicWindow<ViewId> 
-                            //className={selected === id ? 'selected' : ''}
                             path={path} 
-                            //createNode={() => 'new'} 
                             title={VIEW_MAP[id]['title']}
-                            renderToolbar={getPaneHeader}
+                            renderToolbar={renderHeader}
                         >
-                            <h1>{VIEW_MAP[id]['element']}</h1>
+                            {VIEW_MAP[id]['element']}
                         </MosaicWindow>
                         )
                     }}
-                    className={getContainerStyle(selection)}
+                    className={'mosaic-container mosaic-container-' + selection}
                     value={currentNode}
                     onChange={onChange}
                     onRelease={onRelease}
