@@ -29,6 +29,10 @@ const LoadData: React.FC = () => {
   useEffect(() => {
       getLoadDataArtifacts();
       getFlows();
+      return (() => {
+        setLoadDataArtifacts([]);
+        setFlows([]);
+      })
   }, [isLoading]);
 
   //CREATE/POST load data Artifact
