@@ -59,6 +59,13 @@
             color: #333;
             padding-left: 10px;
         }
+        label.exploreText {
+            display: inline-block;
+            position: relative;
+            top: -3px;
+            color: #333;
+            padding-left: 7px;
+        }
     }
     .controls {
         display: flex;

@@ -121,12 +121,19 @@ const Multipane: React.FC  = (props) => {
                 style={{backgroundColor: VIEW_MAP[viewId]['bgColor'], borderBottomColor: VIEW_MAP[viewId]['border']}}
             >
                 <div className={styles.title}>
-                    <i aria-label={'icon-' + viewId}>
-                        { (viewId === 'explore') ? (
-                            <span className={'exploreIconHeader'}></span>
-                        ) : <FontAwesomeIcon style={{color: VIEW_MAP[viewId]['color']}} icon={VIEW_MAP[viewId]['icon']} />  }
-                    </i>
-                    <label className={styles.text}>{props.title}</label>
+                    { (viewId === 'explore') ? (
+                        <>
+                        <span className={'exploreIconHeader'} aria-label={'icon-' + viewId} style={{color: VIEW_MAP[viewId]['color']}}></span>
+                        <label className={styles.exploreText}>{props.title}</label>
+                        </>
+                    ) : (
+                        <>
+                        <i aria-label={'icon-' + viewId}>
+                            <FontAwesomeIcon style={{color: VIEW_MAP[viewId]['color']}} icon={VIEW_MAP[viewId]['icon']} />
+                        </i>
+                        <label className={styles.text}>{props.title}</label>
+                        </>
+                    ) }
                 </div>
                 <div className={styles.controls}>
                     { (CONTROLS.indexOf('newTab') !== -1) ? (
@@ -159,9 +166,7 @@ const Multipane: React.FC  = (props) => {
                     if (tool === 'explore') {
                         return (
                             <Tooltip title={VIEW_MAP['explore']['title']} placement="left" key={i}>
-                                <i className={styles.tool} aria-label={'tool-' + tool} style={{color: VIEW_MAP[tool]['color']}} onClick={() => onSelect(tool)}>
-                                    <div className={'exploreIcon'}></div>
-                                </i>
+                                <div className={'exploreIcon'} aria-label={'tool-' + tool} style={{color: VIEW_MAP[tool]['color']}} onClick={() => onSelect(tool)}></div>
                             </Tooltip>
                         )
                     } else {
