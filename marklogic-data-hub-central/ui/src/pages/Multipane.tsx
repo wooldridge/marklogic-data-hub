@@ -6,7 +6,7 @@ import { ArrowsAltOutlined, ShrinkOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight, faCube, faCubes, faObjectUngroup, faProjectDiagram, faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import styles from './Multipane.module.scss';
-import './Multipane.css';
+import './Multipane.scss';
 
 import LoadData from './LoadData';
 import Modeling from './Modeling';
@@ -15,6 +15,7 @@ import Bench from './Bench';
 import Browse from './Browse';
 
 export type ViewId = 'load' | 'model' | 'curate' | 'run' | 'explore';
+export type control = 'newTab' | 'maximize' | 'minimize';
 
 interface ViewItem {
     title: string;
@@ -68,6 +69,7 @@ const VIEW_MAP: Record<ViewId, ViewItem>  = {
     },
 };
 
+const CONTROLS: control[]  = []; // TODO Turn on controls 
 const INITIAL_SELECTION = 'load';
 const INITIAL_NODE = 'load';
 
@@ -124,9 +126,9 @@ const Multipane: React.FC  = (props) => {
                     </i>
                     <label className={styles.text}>{props.title}</label>
                 </div>
-                <div className={styles.actions}>
+                <div className={styles.controls}>
                     <Tooltip title={'Open in New Tab'} placement="bottom">
-                        <i className={styles.fa} aria-label={'new-tab'} onClick={onClickNewTab}>
+                        <i className={styles.fa} aria-label={'newTab'} onClick={onClickNewTab}>
                             <FontAwesomeIcon icon={faExternalLinkAlt} />
                         </i>
                     </Tooltip>
@@ -149,13 +151,24 @@ const Multipane: React.FC  = (props) => {
         <>
             <div id={styles.toolbar}>
                 {Object.keys(VIEW_MAP).map((tool, i) => {
-                    return (
-                        <Tooltip title={VIEW_MAP[tool]['title']} placement="left" key={i}>
-                            <i className={styles.tool} aria-label={'tool-' + tool} style={{color: VIEW_MAP[tool]['color']}} onClick={() => onSelect(tool)}>
-                                <FontAwesomeIcon icon={VIEW_MAP[tool]['icon']} size="lg" />
-                            </i>
-                        </Tooltip>
-                    )
+                    if (tool === 'explore') {
+                        return (
+                            <Tooltip title={VIEW_MAP['explore']['title']} placement="left">
+                                {/* <i className={'exploreIcon'} aria-label={'tool-explore'} style={{color: VIEW_MAP['explore']['color']}} onClick={() => onSelect('explore')}></i> */}
+                                <i className={styles.tool} aria-label={'tool-' + tool} style={{color: VIEW_MAP[tool]['color']}} onClick={() => onSelect(tool)}>
+                                    <div className={'exploreIcon'}></div>
+                                </i>
+                            </Tooltip>
+                        )
+                    } else {
+                        return (
+                            <Tooltip title={VIEW_MAP[tool]['title']} placement="left" key={i}>
+                                <i className={styles.tool} aria-label={'tool-' + tool} style={{color: VIEW_MAP[tool]['color']}} onClick={() => onSelect(tool)}>
+                                    <FontAwesomeIcon icon={VIEW_MAP[tool]['icon']} size="lg" />
+                                </i>
+                            </Tooltip>
+                        )
+                    }
                 })}
             </div>
             <div id="multipane" className={styles.multipaneContainer}>
