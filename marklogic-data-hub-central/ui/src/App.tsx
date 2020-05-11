@@ -101,7 +101,7 @@ const App: React.FC<Props> = ({history, location}) => {
       <Switch>
         <Route path="/" exact component={Login}/>
         <PrivateRoute path="/home" exact>
-          <Home/>
+          <Multipane/>
         </PrivateRoute>
         <PrivateRoute path="/project-info" exact>
           <ProjectInfo/>

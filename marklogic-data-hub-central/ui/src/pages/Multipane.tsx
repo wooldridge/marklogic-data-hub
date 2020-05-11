@@ -14,8 +14,9 @@ import EntityTypes from './EntityTypes';
 import Bench from './Bench';
 import Browse from './Browse';
 
-export type ViewId = 'load' | 'model' | 'curate' | 'run' | 'explore';
-export type control = 'newTab' | 'maximize' | 'minimize';
+
+export type ViewId =  'load' | 'model' | 'curate' | 'run' | 'explore';
+export type Control = 'newTab' | 'maximize' | 'minimize';
 
 interface ViewItem {
     title: string;
@@ -32,7 +33,7 @@ const VIEW_MAP: Record<ViewId, ViewItem>  = {
         icon: faLongArrowAltRight, 
         color: '#520339',
         bgColor: '#EEE6EB',
-        border: '#520339',
+        border: '#a8819c',
         element: <LoadData/>,
     },
     model: { 
@@ -40,7 +41,7 @@ const VIEW_MAP: Record<ViewId, ViewItem>  = {
         icon: faCube, 
         color: '#22075E',
         bgColor: '#E6EBF4',
-        border: '#003A8C',
+        border: '#7f9cc5',
         element: <Modeling/>,
     },
     curate: { 
@@ -48,15 +49,15 @@ const VIEW_MAP: Record<ViewId, ViewItem>  = {
         icon: faObjectUngroup, 
         color: '#FFC53D',
         bgColor: '#F8F2E8',
-        border: '#BC811D',
+        border: '#dcbd8a',
         element: <EntityTypes/>,
     },
     run: { 
         title: 'Run',
         icon: faCubes, 
-        color: '#D61178',
+        color: '#061178',
         bgColor: '#E6E7F2',
-        border: '#061178',
+        border: '#8288bb',
         element: <Bench/>,
     },
     explore: { 
@@ -64,18 +65,17 @@ const VIEW_MAP: Record<ViewId, ViewItem>  = {
         icon: faProjectDiagram, 
         color: '#00474F',
         bgColor: '#E6EDED',
-        border: '#00474F',
+        border: '#90aeb2',
         element: <Browse/>,
     },
 };
 
-const CONTROLS: control[]  = []; // TODO Turn on controls 
-const INITIAL_SELECTION = 'load';
-const INITIAL_NODE = 'load';
+const CONTROLS: Control[]  = []; // TODO Turn on controls: ['newTab', 'maximize', 'minimize']
+const INITIAL_SELECTION = ''; // '' for no tile initially
 
 const Multipane: React.FC  = (props) => {
-    const [selection, setSelection] = useState<ViewId>(INITIAL_SELECTION);
-    const [currentNode, setCurrentNode] = useState<any>(INITIAL_NODE);
+    const [selection, setSelection] = useState<any>(INITIAL_SELECTION);
+    const [currentNode, setCurrentNode] = useState<any>(INITIAL_SELECTION);
 
     const onSelect = (tool) => {
         setSelection(tool);
@@ -122,7 +122,9 @@ const Multipane: React.FC  = (props) => {
             >
                 <div className={styles.title}>
                     <i aria-label={'icon-' + viewId}>
-                        <FontAwesomeIcon style={{color: VIEW_MAP[viewId]['color']}} icon={VIEW_MAP[viewId]['icon']} /> 
+                        { (viewId === 'explore') ? (
+                            <span className={'exploreIconHeader'}></span>
+                        ) : <FontAwesomeIcon style={{color: VIEW_MAP[viewId]['color']}} icon={VIEW_MAP[viewId]['icon']} />  }
                     </i>
                     <label className={styles.text}>{props.title}</label>
                 </div>
@@ -157,7 +159,6 @@ const Multipane: React.FC  = (props) => {
                     if (tool === 'explore') {
                         return (
                             <Tooltip title={VIEW_MAP['explore']['title']} placement="left" key={i}>
-                                {/* <i className={'exploreIcon'} aria-label={'tool-explore'} style={{color: VIEW_MAP['explore']['color']}} onClick={() => onSelect('explore')}></i> */}
                                 <i className={styles.tool} aria-label={'tool-' + tool} style={{color: VIEW_MAP[tool]['color']}} onClick={() => onSelect(tool)}>
                                     <div className={'exploreIcon'}></div>
                                 </i>
@@ -174,6 +175,8 @@ const Multipane: React.FC  = (props) => {
                     }
                 })}
             </div>
+
+            { (selection !== '') ?  (
             <div id="multipane" className={styles.multipaneContainer}>
                 <Mosaic<ViewId>
                     renderTile={(id, path) => { 
@@ -192,7 +195,7 @@ const Multipane: React.FC  = (props) => {
                     onChange={onChange}
                     onRelease={onRelease}
                 />
-            </div>
+            </div>) : null }
         </>
     );
 }
