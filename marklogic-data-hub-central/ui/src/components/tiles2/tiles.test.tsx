@@ -17,7 +17,7 @@ describe('Tiles component', () => {
             bgColor: color, 
             border: color
         };
-        const {getByLabelText, debug} = render(
+        const {getByLabelText} = render(
             <Tiles 
                 id={text}
                 view={<TestComponent/>}
@@ -26,7 +26,6 @@ describe('Tiles component', () => {
                 options={options}
             />
         );
-        debug();
         expect(getByLabelText('icon-' + text)).toBeInTheDocument();
         expect(getByLabelText('title-' + text)).toBeInTheDocument();
     });
