@@ -30,8 +30,8 @@ const Home: React.FC = () => {
             <Link to="/model"><i><FontAwesomeIcon icon={faCube } size="2x"/></i></Link>
           </button>
         </Tooltip>
-        <Tooltip title="Multipane UI" placement="left">
-            <Link to="/multipane" className={styles.bench}><Icon type="windows" /></Link>
+        <Tooltip title="Tile UI" placement="left">
+            <Link to="/tiles" className={styles.bench}><Icon type="windows" /></Link>
         </Tooltip>
       </div>
     </div>

@@ -11,7 +11,7 @@ import Home from './pages/Home';
 import ProjectInfo from './pages/ProjectInfo';
 import LoadData from './pages/LoadData';
 import Bench from './pages/Bench';
-import Multipane from './pages/Multipane';
+import TilesView from './pages/TilesView';
 import NoMatchRedirect from './pages/noMatchRedirect';
 import View from './pages/View';
 import Browse from './pages/Browse';
@@ -101,7 +101,7 @@ const App: React.FC<Props> = ({history, location}) => {
       <Switch>
         <Route path="/" exact component={Login}/>
         <PrivateRoute path="/home" exact>
-          <Multipane/>
+          <Home/>
         </PrivateRoute>
         <PrivateRoute path="/project-info" exact>
           <ProjectInfo/>
@@ -115,8 +115,8 @@ const App: React.FC<Props> = ({history, location}) => {
         <PrivateRoute path="/bench" exact>
           <Bench/>
         </PrivateRoute>
-        <PrivateRoute path="/multipane" exact>
-          <Multipane/>
+        <PrivateRoute path="/tiles" exact>
+          <TilesView/>
         </PrivateRoute>
         <SearchProvider>
           <PrivateRoute path="/view" exact>

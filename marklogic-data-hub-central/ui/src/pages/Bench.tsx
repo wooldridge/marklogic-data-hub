@@ -162,11 +162,10 @@ const Bench: React.FC = () => {
             let response = await axios.get('/api/artifacts/mapping');
             if (response.status === 200) {
                 setMappings(response.data);
-                console.log('GET mappings successful', response);
             }
         } catch (error) {
             let message = error.response.data.message;
-            console.log('Error getting mappings', message);
+            console.error('Error getting mappings', message);
         } finally {
           resetSessionTime();
         }

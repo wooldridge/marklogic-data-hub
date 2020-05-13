@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Tooltip } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import styles from './Toolbar.module.scss';
-import './Toolbar.scss';
+import styles from './toolbar.module.scss';
+import './toolbar.scss';
 
 interface Props {
     tiles: any;
     onClick: any;
 }
 
-const Toolbar: React.FC<any>  = (props) => {
+const Toolbar: React.FC<Props>  = (props) => {
 
     const tiles = props.tiles; // config/tiles.config.ts
 
