@@ -36,16 +36,13 @@ const TilesView: React.FC  = (props) => {
     const [selection, setSelection] = useState<TileId|string>(INITIAL_SELECTION);
     const [currentNode, setCurrentNode] = useState<any>(INITIAL_SELECTION);
     const [options, setOptions] = useState<TileItem|null>(null);
+    const [view, setView] = useState<JSX.Element|null>(null);
 
-    const onSelect = (tool) => {
-        setSelection(tool);
-        update(tool);
-    }
-
-    const update = (viewId) => {
-        const updatedNode = viewId;
-        setOptions(tiles[viewId]);
-        setCurrentNode(updatedNode);
+    const onSelect = (id) => {
+        setSelection(id);
+        setCurrentNode(id); // TODO Handle multitile with nested objects
+        setOptions(tiles[id]);
+        setView(views[id]);
     }
 
     return (
@@ -55,9 +52,9 @@ const TilesView: React.FC  = (props) => {
                 { (selection !== '') ?  (
                 <Tiles 
                     id={selection}
-                    view={views[selection]}
+                    view={view}
                     currentNode={currentNode}
-                    controls={[]} // TODO Turn on controls
+                    controls={[]} // TODO Turn on tile header controls
                     options={options}
                 />) : null }
             </div>
