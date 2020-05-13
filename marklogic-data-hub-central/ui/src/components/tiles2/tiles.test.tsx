@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import Tiles from './Tiles';
+import Tiles from './tiles';
 import { faCube } from "@fortawesome/free-solid-svg-icons";
 import TestComponent from '../../config/test-component'
 
@@ -41,7 +41,7 @@ describe('Tiles component', () => {
             bgColor: color, 
             border: color
         };
-        const {getByLabelText, debug} = render(
+        const {getByLabelText} = render(
             <Tiles 
                 id={text}
                 view={<TestComponent/>}
@@ -50,7 +50,6 @@ describe('Tiles component', () => {
                 options={options}
             />
         );
-        debug();
         expect(getByLabelText('icon-' + text)).toBeInTheDocument();
         expect(getByLabelText('title-' + text)).toBeInTheDocument();
     });
