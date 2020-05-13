@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import tiles from '../config/tiles.config'
-import Toolbar from '../components/tiles/Toolbar';
-import Tiles from '../components/tiles/Tiles';
+import Toolbar from '../components/tiles2/toolbar';
+import Tiles from '../components/tiles2/tiles';
 import styles from './TilesView.module.scss';
 import './TilesView.scss';
 
@@ -36,11 +36,6 @@ const TilesView: React.FC  = (props) => {
     const [selection, setSelection] = useState<TileId|string>(INITIAL_SELECTION);
     const [currentNode, setCurrentNode] = useState<any>(INITIAL_SELECTION);
     const [options, setOptions] = useState<TileItem|null>(null);
-
-    // let elements = {};
-    // Object.keys(tiles).forEach(id => {
-    //     elements[id] = React.createElement(tiles[id]['element'], {});
-    // })
 
     const onSelect = (tool) => {
         setSelection(tool);

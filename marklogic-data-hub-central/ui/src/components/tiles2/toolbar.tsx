@@ -1,8 +1,8 @@
 import React from 'react';
 import { Tooltip } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import styles from './Toolbar.module.scss';
-import './Toolbar.scss';
+import styles from './toolbar.module.scss';
+import './toolbar.scss';
 
 interface Props {
     tiles: any;
