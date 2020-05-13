@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import tiles from '../config/tiles.config'
-import Toolbar from '../components/tiles2/toolbar';
-import Tiles from '../components/tiles2/tiles';
+import Toolbar from '../components/tiles/toolbar';
+import Tiles from '../components/tiles/tiles';
 import styles from './TilesView.module.scss';
 import './TilesView.scss';
 
