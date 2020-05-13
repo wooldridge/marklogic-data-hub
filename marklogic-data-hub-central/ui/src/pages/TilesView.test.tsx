@@ -2,25 +2,30 @@ import React from 'react';
 import { render, fireEvent, waitForElement, cleanup } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import TilesView from './TilesView';
+import { shallow } from 'enzyme';
 
 describe('TilesView component', () => {
 
-    it('initially renders with the toolbar and no tile', () => {
-        const {getByLabelText} = render(<TilesView/>);
+    it('renders with the toolbar and displays tile after button click', () => {
+        const {getByLabelText, queryByText} = render(<TilesView/>);
+
         expect(getByLabelText("toolbar")).toBeInTheDocument();
+
         expect(getByLabelText("tool-load")).toBeInTheDocument();
         expect(getByLabelText("tool-model")).toBeInTheDocument();
         expect(getByLabelText("tool-curate")).toBeInTheDocument();
         expect(getByLabelText("tool-run")).toBeInTheDocument();
         expect(getByLabelText("tool-explore")).toBeInTheDocument();
-    });
 
-    it('shows the Curate tile when toolbar button is clicked', () => {
-        const {getByLabelText, debug} = render(<TilesView/>);
-        // Click disclosure icon
+        // Tile not shown initially
+        expect(queryByText("icon-curate")).not.toBeInTheDocument();
+        expect(queryByText("title-curate")).not.toBeInTheDocument();
+
         fireEvent.click(getByLabelText("tool-curate"));
-        // Mock the onSelect()
-        debug();
+        
+        // Tile shown after click
+        expect(getByLabelText("icon-curate")).toBeInTheDocument();
+        expect(getByLabelText("title-curate")).toBeInTheDocument();
     });
 
 });
