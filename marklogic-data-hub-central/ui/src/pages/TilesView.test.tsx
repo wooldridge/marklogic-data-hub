@@ -34,7 +34,7 @@ describe('TilesView component', () => {
     test('Verify Curate tile displays from toolbar', async () => {
         const {getByLabelText, getByText, queryByText} = render(<TilesView/>);
 
-        // Tile not shown initially
+        // Curate tile not shown initially
         expect(queryByText("icon-curate")).not.toBeInTheDocument();
         expect(queryByText("title-curate")).not.toBeInTheDocument();
 
@@ -52,10 +52,39 @@ describe('TilesView component', () => {
         }) 
         fireEvent.click(getByLabelText("tool-curate"));
         
-        // Curate Tile shown with entityTypes after click
+        // Curate tile shown with entityTypes after click
         expect(await(waitForElement(() => getByLabelText("icon-curate")))).toBeInTheDocument();
         expect(getByLabelText("title-curate")).toBeInTheDocument();
         expect(getByText('Customer')).toBeInTheDocument();
+    });
+
+    test('Verify Run tile displays from toolbar', async () => {
+        const {getByLabelText, getByText, queryByText} = render(<TilesView/>);
+
+        // Run tile not shown initially
+        expect(queryByText("icon-run")).not.toBeInTheDocument();
+        expect(queryByText("title-run")).not.toBeInTheDocument();
+
+        await axiosMock.get['mockImplementation']((url) => {
+            switch (url) {
+                case '/api/flows':
+                    return Promise.resolve(curateData.flows)
+                case '/api/artifacts/loadData':
+                    return Promise.resolve(curateData.loads)
+                case '/api/artifacts/mapping':
+                    return Promise.resolve(curateData.mappings)
+                default:
+                    return Promise.reject(new Error('not found'))
+            }
+        }) 
+        fireEvent.click(getByLabelText("tool-run"));
+        
+        // Run tile shown with entityTypes after click
+        expect(await(waitForElement(() => getByLabelText("icon-run")))).toBeInTheDocument();
+        expect(getByLabelText("title-run")).toBeInTheDocument();
+        expect(document.querySelector('#flows-container')).toBeInTheDocument();
+        expect(getByText('Create Flow')).toBeInTheDocument();
+        expect(getByText('test-flow')).toBeInTheDocument();
     });
 
 });
