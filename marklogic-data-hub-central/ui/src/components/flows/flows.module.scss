@@ -56,6 +56,17 @@
                 cursor: pointer;
             }
 
+            .run:hover {
+                position: relative;
+                top: 1px;
+                display: inline-block;
+                padding-right: 10px;
+                color: #5B69AF;
+                border-color: #5B69AF;                
+                font-size: 20px;
+                cursor: pointer;
+            }
+
             .upload  {
                 position: relative;
                 display: inline-block;
