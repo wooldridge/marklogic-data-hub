@@ -84,35 +84,35 @@ const Flows: React.FC<Props> = (props) => {
             setActiveKeys([...props.flowsDefaultActiveKey]);
         }
         // Get the latest job info when a step is added to an existing flow from Curate or Load Tile
-        if(JSON.stringify(props.flows) !== JSON.stringify([])) {
-            if(props.newStepToFlowOptions && props.newStepToFlowOptions.addingStepToFlow && props.newStepToFlowOptions.flowsDefaultKey && props.newStepToFlowOptions.flowsDefaultKey != -1){
+        if (JSON.stringify(props.flows) !== JSON.stringify([])) {
+            if (props.newStepToFlowOptions && props.newStepToFlowOptions.addingStepToFlow && props.newStepToFlowOptions.flowsDefaultKey && props.newStepToFlowOptions.flowsDefaultKey != -1) {
                 getFlowWithJobInfo(props.newStepToFlowOptions.flowsDefaultKey);
-                if(startRun && props.newStepToFlowOptions.existingFlow){
+                if (startRun && props.newStepToFlowOptions.existingFlow) {
                         //run step after step is added to an existing flow
-                        if(props.newStepToFlowOptions.stepDefinitionType === 'ingestion'){
+                        if (props.newStepToFlowOptions.stepDefinitionType === 'ingestion') {
                             setShowUploadError(false);
                             setRunningStep(props.flows[props.newStepToFlowOptions.flowsDefaultKey].steps[props.flows[props.newStepToFlowOptions.flowsDefaultKey].steps.length - 1]);
                             setRunningFlow(props.newStepToFlowOptions?.flowName);
                             openFilePicker();
                             setStartRun(false);
-                        }else {
+                        } else {
                             props.runStep(props.newStepToFlowOptions?.flowName, props.flows[props.newStepToFlowOptions.flowsDefaultKey].steps[props.flows[props.newStepToFlowOptions.flowsDefaultKey].steps.length - 1]);
                             setStartRun(false);
                         }
                 }
             }
             //run step after step is added to a new flow
-            if(props.newStepToFlowOptions && !props.newStepToFlowOptions.existingFlow && startRun && addedFlowName) {
+            if (props.newStepToFlowOptions && !props.newStepToFlowOptions.existingFlow && startRun && addedFlowName) {
                 let index = props.flows.findIndex(i => i.name === addedFlowName);
-                if(props.flows[index].steps[0]){
-                    if(props.flows[index].steps[0].stepDefinitionType === 'ingestion'){
+                if (props.flows[index].steps[0]) {
+                    if (props.flows[index].steps[0].stepDefinitionType === 'ingestion') {
                         setShowUploadError(false);
                         setRunningStep(props.flows[index].steps[0]);
                         setRunningFlow(addedFlowName);
                         openFilePicker();
                         setAddedFlowName('');  
                         setStartRun(false);
-                    }else {
+                    } else {
                         props.runStep(addedFlowName, props.flows[index].steps[0]);
                         setAddedFlowName('');  
                         setStartRun(false);
@@ -131,13 +131,13 @@ const Flows: React.FC<Props> = (props) => {
     // Get the latest job info after a step (in a flow) run
     useEffect(()=>{
         let num = props.flows.findIndex((flow) => flow.name === props.runEnded.flowId);
-        if(num >= 0){
+        if (num >= 0) {
             getFlowWithJobInfo(num);
         }
     },[props.runEnded])
 
     useEffect(() => {
-        if(props.newStepToFlowOptions && props.newStepToFlowOptions.startRunStep) {
+        if (props.newStepToFlowOptions && props.newStepToFlowOptions.startRunStep) {
             setStartRun(true);
         }
     },[props.newStepToFlowOptions])
@@ -429,7 +429,7 @@ const Flows: React.FC<Props> = (props) => {
     const showStepRunResponse = async (step) =>{
         try{
             let response = await axios.get('/api/jobs/' + step.jobId)
-            if(response.status === 200){
+            if (response.status === 200) {
                 props.showStepRunResponse(step.stepName, step.stepDefinitionType, "", step.jobId, response.data);
             }
         }
@@ -440,10 +440,10 @@ const Flows: React.FC<Props> = (props) => {
 
     const lastRunResponse = (step) => {
         let stepEndTime, tooltipText;
-        if(step.stepEndTime){
+        if (step.stepEndTime) {
             stepEndTime = new Date(step.stepEndTime).toLocaleString();
         }
-        if(!step.lastRunStatus){
+        if (!step.lastRunStatus) {
             return ;
         }
         else if (step.lastRunStatus === "completed step " + step.stepNumber) {
@@ -610,7 +610,7 @@ const Flows: React.FC<Props> = (props) => {
     const handlePanelInteraction = (key) => {
         /* Request to get latest job info for the flow will be made when someone opens the pane for the first time
         or opens a new pane. Closing the pane shouldn't send any requests*/
-        if(!activeKeys || (key.length > activeKeys.length && key.length > 0)) {
+        if (!activeKeys || (key.length > activeKeys.length && key.length > 0)) {
             getFlowWithJobInfo(key[key.length - 1]);
         }
         setActiveKeys([...key])

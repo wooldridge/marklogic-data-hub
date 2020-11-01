@@ -182,7 +182,7 @@ const MappingCard: React.FC<Props> = (props) => {
             setIsLoading(true);
             let response = await getUris(stepName,20);
               if (response.status === 200) {
-               if(response.data.length > 0){
+               if (response.data.length > 0) {
                    setDisableURINavRight(response.data.length > 1 ? false : true);
                    setDocUris(response.data);
                    setSourceURI(response.data[0]);
@@ -208,15 +208,15 @@ const MappingCard: React.FC<Props> = (props) => {
             let srcDocResp = await getDoc(stepName, uri);
             if (srcDocResp.status === 200) {
                 let parsedDoc: any;
-                if(typeof(srcDocResp.data) === 'string'){
+                if (typeof(srcDocResp.data) === 'string') {
                     parsedDoc = getParsedXMLDoc(srcDocResp);
                     setSourceFormat('xml');
                 } else {
                     parsedDoc = srcDocResp.data;
                     setSourceFormat('json');
                 }
-                if(parsedDoc['envelope']){
-                    if(parsedDoc['envelope'].hasOwnProperty('@xmlns')){
+                if (parsedDoc['envelope']) {
+                    if (parsedDoc['envelope'].hasOwnProperty('@xmlns')) {
 
                         let nmspcURI = parsedDoc['envelope']['@xmlns']
                         let indCheck = nmspcURI.lastIndexOf('/');
@@ -232,7 +232,7 @@ const MappingCard: React.FC<Props> = (props) => {
                 let sDta = generateNestedDataSource(docRoot,nestedDoc);
                 setSourceData([]);
                 setSourceData([...sDta]);
-                if(typeof(srcDocResp.data) === 'string'){
+                if (typeof(srcDocResp.data) === 'string') {
                     let mData = await props.getMappingArtifactByMapName(props.entityModel.entityTypeId,props.data[index].name);
                     updateMappingWithNamespaces(mData);
                 }
@@ -375,7 +375,7 @@ const MappingCard: React.FC<Props> = (props) => {
 
                 if (val && val.constructor && val.constructor.name === "Object") {
                     let tempNS = parentNamespace;
-                    if(val.hasOwnProperty('@xmlns')){
+                    if (val.hasOwnProperty('@xmlns')) {
                         parentNamespace = updateParentNamespace(val);
                         currentDefaultNamespace = val['@xmlns'];
                     }
@@ -386,7 +386,7 @@ const MappingCard: React.FC<Props> = (props) => {
                     generateNestedDataSource(val, propty.children, parentNamespace, currentDefaultNamespace);
                     nestedDoc.push(propty);
 
-                    if(parentNamespace !== tempNS){
+                    if (parentNamespace !== tempNS) {
                         parentNamespace = tempNS;
                     }
                 } else if (val && Array.isArray(val)) {
@@ -418,7 +418,7 @@ const MappingCard: React.FC<Props> = (props) => {
                         val.forEach(obj => {
                             let tempNS = parentNamespace;
                             let childDefaultNamespace = currentDefaultNamespace;
-                            if(obj.constructor.name === "Object" && obj.hasOwnProperty('@xmlns')){
+                            if (obj.constructor.name === "Object" && obj.hasOwnProperty('@xmlns')) {
                                 parentNamespace = updateParentNamespace(obj);
                                 childDefaultNamespace = obj['@xmlns'];
                             }
@@ -427,7 +427,7 @@ const MappingCard: React.FC<Props> = (props) => {
 
                             generateNestedDataSource(obj, propty.children, parentNamespace, childDefaultNamespace);
                             nestedDoc.push(propty);
-                            if(parentNamespace !== tempNS){
+                            if (parentNamespace !== tempNS) {
                                 parentNamespace = tempNS;
                             }
                         });
@@ -511,7 +511,7 @@ const MappingCard: React.FC<Props> = (props) => {
                 let dataTp = getDatatype(val);
                 parentKey = parentKey ? parentKey + '/' + key : key;
                 EntitYTableKeyIndex = EntitYTableKeyIndex + 1;
-                if(val.$ref || val.items.$ref) {
+                if (val.$ref || val.items.$ref) {
                     let ref = val.$ref ? val.$ref : val.items.$ref;
                     tgtRefs[parentKey] = ref;
                 }
@@ -613,7 +613,7 @@ const MappingCard: React.FC<Props> = (props) => {
         await props.addStepToFlow(lName, fName, 'mapping')
         setAddDialogVisible(false);
         
-        if(addRun) {
+        if (addRun) {
             history.push({
                 pathname: '/tiles/run/add-run',
                 state: {
@@ -624,7 +624,7 @@ const MappingCard: React.FC<Props> = (props) => {
                     stepDefinitionType : 'mapping'
                 }
             })
-        }else {
+        } else {
             history.push({
                 pathname: '/tiles/run/add',
                 state: {
