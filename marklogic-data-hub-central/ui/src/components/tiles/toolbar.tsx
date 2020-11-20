@@ -67,7 +67,7 @@ const Toolbar: React.FC<Props> = (props) => {
             {Object.keys(tiles).map((id, i) => {
                 if (tiles[id]['iconType'] === 'custom') {
                     return (
-                        <div aria-label={'tool-' + id + '-link'} key={i} tabIndex={-1}>
+                        <div className={styles.toolWrapper} aria-label={'tool-' + id + '-link'} key={i} tabIndex={-1}>
                             <MLTooltip title={getTooltip(id)} placement="leftTop" key={i}>
                                 <div
                                     className={tiles[id]['icon']}
@@ -86,7 +86,7 @@ const Toolbar: React.FC<Props> = (props) => {
                 } else {
                     return (
                         <MLTooltip title={getTooltip(id)} placement="leftTop" key={i}>
-                            <div aria-label={'tool-' + id + '-link'} tabIndex={-1}>
+                            <div className={styles.toolWrapper} aria-label={'tool-' + id + '-link'} tabIndex={-1}>
                                 <i
                                     className={styles.tool}
                                     aria-label={'tool-' + id}
