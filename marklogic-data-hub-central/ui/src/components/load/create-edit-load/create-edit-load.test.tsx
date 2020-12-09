@@ -40,21 +40,24 @@ describe("New/edit load step configuration", () => {
     expect(queryAllByText("Target URI Preview:").length).toEqual(0);
     expect(queryAllByPlaceholderText("Enter URI Prefix")[0]).toBeInTheDocument();
     let tooltip  = getAllByLabelText("icon: question-circle");
-    // Tooltip for name
+    // Tooltip for name Field
     fireEvent.mouseOver(tooltip[0]);
+    await waitForElement(() => getByText(NewLoadTooltips.nameField));
+    // Tooltip for name
+    fireEvent.mouseOver(tooltip[1]);
     await waitForElement(() => getByText(NewLoadTooltips.name));
     // Tooltip for Description
-    fireEvent.mouseOver(tooltip[1]);
+    fireEvent.mouseOver(tooltip[2]);
     await waitForElement(() => getByText(NewLoadTooltips.description));
     // Tooltip for Source Format
-    fireEvent.mouseOver(tooltip[2]);
+    fireEvent.mouseOver(tooltip[3]);
     await waitForElement(() => getByText(NewLoadTooltips.sourceFormat));
     // Tooltip for Target Format
-    fireEvent.mouseOver(tooltip[3]);
-    await waitForElement(() => getByText(NewLoadTooltips.targetFormat));
     fireEvent.mouseOver(tooltip[4]);
-    await waitForElement(() => getByText(NewLoadTooltips.sourceName));
+    await waitForElement(() => getByText(NewLoadTooltips.targetFormat));
     fireEvent.mouseOver(tooltip[5]);
+    await waitForElement(() => getByText(NewLoadTooltips.sourceName));
+    fireEvent.mouseOver(tooltip[6]);
     await waitForElement(() => getByText(NewLoadTooltips.sourceType));
     // Tooltip for Target URI Prefix
     fireEvent.mouseOver(tooltip[6]);
