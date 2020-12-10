@@ -40,24 +40,21 @@ describe("New/edit load step configuration", () => {
     expect(queryAllByText("Target URI Preview:").length).toEqual(0);
     expect(queryAllByPlaceholderText("Enter URI Prefix")[0]).toBeInTheDocument();
     let tooltip  = getAllByLabelText("icon: question-circle");
-    // Tooltip for name Field
-    fireEvent.mouseOver(tooltip[0]);
-    await waitForElement(() => getByText(NewLoadTooltips.nameField));
     // Tooltip for name
-    fireEvent.mouseOver(tooltip[1]);
+    fireEvent.mouseOver(tooltip[0]);
     await waitForElement(() => getByText(NewLoadTooltips.name));
     // Tooltip for Description
-    fireEvent.mouseOver(tooltip[2]);
+    fireEvent.mouseOver(tooltip[1]);
     await waitForElement(() => getByText(NewLoadTooltips.description));
     // Tooltip for Source Format
-    fireEvent.mouseOver(tooltip[3]);
+    fireEvent.mouseOver(tooltip[2]);
     await waitForElement(() => getByText(NewLoadTooltips.sourceFormat));
     // Tooltip for Target Format
-    fireEvent.mouseOver(tooltip[4]);
+    fireEvent.mouseOver(tooltip[3]);
     await waitForElement(() => getByText(NewLoadTooltips.targetFormat));
-    fireEvent.mouseOver(tooltip[5]);
+    fireEvent.mouseOver(tooltip[4]);
     await waitForElement(() => getByText(NewLoadTooltips.sourceName));
-    fireEvent.mouseOver(tooltip[6]);
+    fireEvent.mouseOver(tooltip[5]);
     await waitForElement(() => getByText(NewLoadTooltips.sourceType));
     // Tooltip for Target URI Prefix
     fireEvent.mouseOver(tooltip[6]);
@@ -66,9 +63,9 @@ describe("New/edit load step configuration", () => {
     expect(getByText("Target URI Prefix:")).toHaveTextContent("Target URI Prefix:");
   });
 
-  test("fields with Delimited Text render", () => {
+  test("fields with Delimited Text render", async () => {
     const stepData = {sourceFormat: "csv", separator: "||", targetFormat: "json"};
-    const {baseElement, queryAllByPlaceholderText, getByLabelText} = render(<BrowserRouter>
+    const {baseElement, queryAllByPlaceholderText, getByLabelText, getByText} = render(<BrowserRouter>
       <CreateEditLoad {...loadProps} stepData={stepData} />
     </BrowserRouter>);
     expect(getByLabelText("newLoadCardTitle")).toBeInTheDocument();
@@ -83,6 +80,11 @@ describe("New/edit load step configuration", () => {
     expect(queryAllByPlaceholderText("Enter Source Type")[0]).toBeInTheDocument();
     expect(baseElement.querySelector("#outputUriReplacement")).not.toBeInTheDocument();
     expect(baseElement.querySelector("#outputUriPrefix")).toBeInTheDocument();
+
+    // Tooltip for disabled name field
+    fireEvent.mouseOver(queryAllByPlaceholderText("Enter name")[0]);
+    await waitForElement(() => getByText(NewLoadTooltips.nameField));
+
   });
 
   test("targetFormat with Text should not display sourceName and sourceType", () => {
