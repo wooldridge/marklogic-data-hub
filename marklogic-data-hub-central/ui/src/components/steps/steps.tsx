@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Modal, Tabs} from "antd";
+import {Modal, Tabs, Tooltip} from "antd";
 import CreateEditLoad from "../load/create-edit-load/create-edit-load";
 import CreateEditMapping from "../entities/mapping/create-edit-mapping/create-edit-mapping";
 import CreateEditStep from "../entities/create-edit-step/create-edit-step";
@@ -9,9 +9,11 @@ import ConfirmYesNo from "../common/confirm-yes-no/confirm-yes-no";
 import styles from "./steps.module.scss";
 import "./steps.scss";
 import {StepType} from "../../types/curation-types";
+import {MLButton, MLTooltip} from "@marklogic/design-system";
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
+import { ErrorTooltips } from "../../config/tooltips.config";
 
 const {TabPane} = Tabs;
 
@@ -183,11 +185,17 @@ const Steps: React.FC<Props> = (props) => {
       </div> :
         <div className={styles.tabs}>
           <Tabs activeKey={currentTab} defaultActiveKey={DEFAULT_TAB} size={"large"} onTabClick={handleTabChange} animated={false} tabBarGutter={10}>
-            <TabPane tab="Basic" key="1" disabled={!isValid && currentTab !== "1"}>
+          <TabPane tab={(
+            <MLTooltip id="basicTooltip" style={ {wordBreak: "break-all"} }
+            title={(!isValid && currentTab !== "1") ? ErrorTooltips.disabledTab : null} placement={"topRight"}>Basic</MLTooltip>
+          )} key="1" disabled={!isValid && currentTab !== "1"}>
               {getCreateEditStep(props.activityType)}
             </TabPane>
-            <TabPane tab="Advanced" key="2"  disabled={!isValid && currentTab !== "2"}>
-              <AdvancedSettings
+            <TabPane tab={(
+            <MLTooltip id="advTooltip" style={ {wordBreak: "break-all"} }
+            title={(!isValid && currentTab !== "2") ? ErrorTooltips.disabledTab : null} placement={"topRight"}>Advanced</MLTooltip>
+          )} key="2" disabled={!isValid && currentTab !== "2"}> 
+             <AdvancedSettings
                 tabKey="2"
                 tooltipsData={props.tooltipsData}
                 openStepSettings={props.openStepSettings}
@@ -203,7 +211,7 @@ const Steps: React.FC<Props> = (props) => {
               />
             </TabPane>
           </Tabs>
-        </div> }
+        </div> } 
       {/* Step Details link for Mapping steps */}
       { (props.isEditing && props.activityType === StepType.Mapping) ?
         <div className={styles.stepDetailsLink} onClick={() => handleStepDetails(props.stepData.name)}>

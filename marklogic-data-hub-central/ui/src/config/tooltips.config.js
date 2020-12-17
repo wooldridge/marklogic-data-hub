@@ -190,6 +190,10 @@ const MergingStepDetailText = {
     'matched entities are combined into the merged entity by default. To define exceptions to this default behavior, create merge strategies and merge rules.'
 }
 
+const ErrorTooltips = {
+  disabledTab: 'You must correct the errors in \nthe current tab before switching.',
+}
+
 export {
     AdvancedSettingsTooltips,
     NewFlowTooltips,
@@ -209,5 +213,6 @@ export {
     MatchingStepDetailText,
     MergeRuleTooltips,
     MergingStepDetailText,
-    MergeStrategyTooltips
+    MergeStrategyTooltips,
+    ErrorTooltips
 }
