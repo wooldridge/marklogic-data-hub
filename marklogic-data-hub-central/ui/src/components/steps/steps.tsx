@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Modal, Tabs, Tooltip} from "antd";
+import {Popover, Modal, Tabs, Tooltip} from "antd";
 import CreateEditLoad from "../load/create-edit-load/create-edit-load";
 import CreateEditMapping from "../entities/mapping/create-edit-mapping/create-edit-mapping";
 import CreateEditStep from "../entities/create-edit-step/create-edit-step";
@@ -184,16 +184,18 @@ const Steps: React.FC<Props> = (props) => {
         {getCreateEditStep(props.activityType)}
       </div> :
         <div className={styles.tabs}>
-          <Tabs activeKey={currentTab} defaultActiveKey={DEFAULT_TAB} size={"large"} onTabClick={handleTabChange} animated={false} tabBarGutter={10}>
+        <Tabs activeKey={currentTab} defaultActiveKey={DEFAULT_TAB} size={"large"} onTabClick={handleTabChange} animated={false} tabBarGutter={10}>
           <TabPane tab={(
-            <MLTooltip id="basicTooltip" style={ {wordBreak: "break-all"} }
-            title={(!isValid && currentTab !== "1") ? ErrorTooltips.disabledTab : null} placement={"topRight"}>Basic</MLTooltip>
+            <MLTooltip getPopupContainer={() => document.getElementById("parentContainer") || document.body}
+            id="basicTooltip" style={ {wordBreak: "break-all"} }
+            title={(!isValid && currentTab !== "1") ? ErrorTooltips.disabledTab : null} placement={"bottom"}>Basic</MLTooltip>
           )} key="1" disabled={!isValid && currentTab !== "1"}>
               {getCreateEditStep(props.activityType)}
             </TabPane>
             <TabPane tab={(
-            <MLTooltip id="advTooltip" style={ {wordBreak: "break-all"} }
-            title={(!isValid && currentTab !== "2") ? ErrorTooltips.disabledTab : null} placement={"topRight"}>Advanced</MLTooltip>
+            <MLTooltip getPopupContainer={() => document.getElementById("parentContainer") || document.body}
+            id="advTooltip" style={ {wordBreak: "break-all"} }
+            title={(!isValid && currentTab !== "2") ? ErrorTooltips.disabledTab : null} placement={"bottom"}>Advanced</MLTooltip>
           )} key="2" disabled={!isValid && currentTab !== "2"}> 
              <AdvancedSettings
                 tabKey="2"
